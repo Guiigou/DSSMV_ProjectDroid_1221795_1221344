@@ -29,7 +29,6 @@ android {
 }
 
 dependencies {
-
     implementation libs.appcompat
     implementation libs.material
     implementation libs.activity
@@ -37,8 +36,7 @@ dependencies {
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
-    // Retrofit for HTTP requests
+    // Retrofit e Gson Converter
     implementation libs.retrofit
-    // Converter for handling JSON data
     implementation libs.converter.gson
 }
