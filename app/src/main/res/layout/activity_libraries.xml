@@ -6,8 +6,16 @@
               android:padding="16dp">
 
     <Button
-            android:id="@+id/btnLibraries"
+            android:id="@+id/btnViewLibraries"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Bibliotecas" />
+            android:text="Visualizar bibliotecas" />
+
+    <TextView
+            android:id="@+id/txtLibraries"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp"
+            android:text="Aqui aparecerão as bibliotecas"
+            android:textSize="16sp" />
 </LinearLayout>

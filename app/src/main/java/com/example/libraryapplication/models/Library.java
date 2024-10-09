@@ -4,54 +4,34 @@ public class Library {
     private String id;
     private String name;
     private String address;
-    private String openTime;
-    private String closeTime;
+    private boolean open;
+    private String openDays;
+    private String openStatement;
+    private String openTime;  // Atualizado para String
+    private String closeTime;  // Atualizado para String
 
-    public Library(String id, String name, String address, String openTime, String closeTime) {
-        this.id = id;
-        this.name = name;
-        this.address = address;
-        this.openTime = openTime;
-        this.closeTime = closeTime;
-    }
+    // Getters e setters
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
 
-    public String getId() {
-        return id;
-    }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
 
-    public void setId(String id) {
-        this.id = id;
-    }
+    public String getAddress() { return address; }
+    public void setAddress(String address) { this.address = address; }
 
-    public String getName() {
-        return name;
-    }
+    public boolean isOpen() { return open; }
+    public void setOpen(boolean open) { this.open = open; }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    public String getOpenDays() { return openDays; }
+    public void setOpenDays(String openDays) { this.openDays = openDays; }
 
-    public String getAddress() {
-        return address;
-    }
+    public String getOpenStatement() { return openStatement; }
+    public void setOpenStatement(String openStatement) { this.openStatement = openStatement; }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
+    public String getOpenTime() { return openTime; }
+    public void setOpenTime(String openTime) { this.openTime = openTime; }
 
-    public String getOpenTime() {
-        return openTime;
-    }
-
-    public void setOpenTime(String openTime) {
-        this.openTime = openTime;
-    }
-
-    public String getCloseTime() {
-        return closeTime;
-    }
-
-    public void setCloseTime(String closeTime) {
-        this.closeTime = closeTime;
-    }
+    public String getCloseTime() { return closeTime; }
+    public void setCloseTime(String closeTime) { this.closeTime = closeTime; }
 }

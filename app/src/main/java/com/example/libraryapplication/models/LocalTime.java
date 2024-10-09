@@ -6,7 +6,7 @@ public class LocalTime {
     private int second;
     private int nano;
 
-    // Getters e Setters
+    // Getters e setters
     public int getHour() { return hour; }
     public void setHour(int hour) { this.hour = hour; }
 
