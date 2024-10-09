@@ -1,13 +1,16 @@
-package com.example.libraryapplication.models;
+package com.example.libraryapplication.dto;
 
-public class Library {
+public class LibraryDTO {
     private String id;
     private String name;
     private String address;
     private String openTime;
     private String closeTime;
 
-    public Library(String id, String name, String address, String openTime, String closeTime) {
+    public LibraryDTO() {
+    }
+
+    public LibraryDTO(String id, String name, String address, String openTime, String closeTime) {
         this.id = id;
         this.name = name;
         this.address = address;
