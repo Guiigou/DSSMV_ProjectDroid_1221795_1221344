@@ -47,8 +47,10 @@ public class LibrariesActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<Library>> call, Response<List<Library>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    // Exibe as bibliotecas no TextView
                     List<Library> libraries = response.body();
+                    // Verifica quantas bibliotecas estão a ser recebidas
+                    txtLibraries.setText("Número de bibliotecas recebidas: " + libraries.size() + "\n\n");
+
                     StringBuilder builder = new StringBuilder();
                     for (Library library : libraries) {
                         builder.append("Nome: ").append(library.getName()).append("\n");
@@ -58,22 +60,17 @@ public class LibrariesActivity extends AppCompatActivity {
                         builder.append("Hora de Fecho: ").append(library.getCloseTime()).append("\n");
                         builder.append("-----------------------------------\n");
                     }
-                    txtLibraries.setText(builder.toString());  // Atualiza o TextView com a lista de bibliotecas
+                    txtLibraries.append(builder.toString());  // Atualiza o TextView com a lista de bibliotecas
                 } else {
-                    try {
-                        // Se a resposta falhar, exibe o erro no TextView
-                        txtLibraries.setText("Erro: " + response.errorBody().string());
-                    } catch (IOException e) {
-                        txtLibraries.setText("Erro ao processar o erro.");
-                    }
+                    txtLibraries.setText("Erro ao obter as bibliotecas.");
                 }
             }
 
             @Override
             public void onFailure(Call<List<Library>> call, Throwable t) {
-                // Exibe o erro de rede ou de timeout
-                txtLibraries.setText("Erro de rede: " + t.getMessage());
+                txtLibraries.setText("Erro ao obter as bibliotecas: " + t.getMessage());
             }
         });
+
     }
 }
