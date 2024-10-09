@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:padding="16dp">
+
+    <EditText
+            android:id="@+id/edtName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nome da Biblioteca" />
+
+    <EditText
+            android:id="@+id/edtAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Endereço" />
+
+    <EditText
+            android:id="@+id/edtOpenDays"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Dias de Abertura (ex: Seg-Sex)" />
+
+    <EditText
+            android:id="@+id/edtOpenHour"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Hora de Abertura (HH)" />
+
+    <EditText
+            android:id="@+id/edtOpenMinute"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Minuto de Abertura (MM)" />
+
+    <EditText
+            android:id="@+id/edtCloseHour"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Hora de Fecho (HH)" />
+
+    <EditText
+            android:id="@+id/edtCloseMinute"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Minuto de Fecho (MM)" />
+
+    <Button
+            android:id="@+id/btnAddLibrary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Adicionar Biblioteca" />
+
+</LinearLayout>

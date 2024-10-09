@@ -7,8 +7,10 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.libraryapplication.R;
 
+
 public class MainActivity extends AppCompatActivity {
     private Button btnLibraries;
+    private Button btnAddLibrary;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,6 +18,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         btnLibraries = findViewById(R.id.btnLibraries);
+        btnAddLibrary = findViewById(R.id.btnAddLibrary);
+
         btnLibraries.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -24,5 +28,15 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
+        btnAddLibrary.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, AddLibraryActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }
+

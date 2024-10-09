@@ -7,8 +7,8 @@ public class Library {
     private boolean open;
     private String openDays;
     private String openStatement;
-    private String openTime;  // Atualizado para String
-    private String closeTime;  // Atualizado para String
+    private String openTime;
+    private String closeTime;
 
     // Getters e setters
     public String getId() { return id; }

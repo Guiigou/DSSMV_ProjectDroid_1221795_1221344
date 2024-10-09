@@ -27,5 +27,9 @@
 
         <activity android:name=".activities.LibrariesActivity"
                   android:exported="true" />
+
+        <activity android:name=".activities.AddLibraryActivity"/>
+
+
     </application>
 </manifest>
