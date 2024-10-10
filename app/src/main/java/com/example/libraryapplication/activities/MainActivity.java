@@ -11,6 +11,7 @@ import com.example.libraryapplication.R;
 public class MainActivity extends AppCompatActivity {
     private Button btnLibraries;
     private Button btnAddLibrary;
+    private Button btnDeleteLibrary;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
 
         btnLibraries = findViewById(R.id.btnLibraries);
         btnAddLibrary = findViewById(R.id.btnAddLibrary);
+        btnDeleteLibrary = findViewById(R.id.btnDeleteLibrary);
 
         btnLibraries.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -34,6 +36,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, AddLibraryActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btnDeleteLibrary.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, DeleteLibraryActivity.class);
                 startActivity(intent);
             }
         });

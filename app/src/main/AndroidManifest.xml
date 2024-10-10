@@ -30,6 +30,8 @@
 
         <activity android:name=".activities.AddLibraryActivity"/>
 
+        <activity android:name=".activities.DeleteLibraryActivity"/>
+
 
     </application>
 </manifest>

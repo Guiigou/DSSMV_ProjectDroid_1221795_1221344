@@ -24,7 +24,6 @@ public class AddLibraryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_library);
 
-        // Referências aos campos de entrada
         edtName = findViewById(R.id.edtName);
         edtAddress = findViewById(R.id.edtAddress);
         edtOpenDays = findViewById(R.id.edtOpenDays);
@@ -37,7 +36,6 @@ public class AddLibraryActivity extends AppCompatActivity {
         btnAddLibrary.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Cria uma nova Library com os dados inseridos
                 Library library = new Library();
                 library.setName(edtName.getText().toString());
                 library.setAddress(edtAddress.getText().toString());
@@ -50,14 +48,12 @@ public class AddLibraryActivity extends AppCompatActivity {
                 library.setCloseTime(closeTime);
 
 
-                // Chama a função para enviar os dados da biblioteca
                 postLibrary(library);
             }
         });
     }
 
     private void postLibrary(Library library) {
-        // Faz a chamada POST à API usando Retrofit
         LibraryService libraryService = ApiClient.getClient().create(LibraryService.class);
         Call<Void> call = libraryService.createLibrary(library);
 
@@ -66,7 +62,7 @@ public class AddLibraryActivity extends AppCompatActivity {
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(AddLibraryActivity.this, "Biblioteca criada com sucesso!", Toast.LENGTH_LONG).show();
-                    finish();  // Fecha a Activity
+                    finish();
                 } else {
                     Toast.makeText(AddLibraryActivity.this, "Erro ao criar a biblioteca.", Toast.LENGTH_LONG).show();
                 }

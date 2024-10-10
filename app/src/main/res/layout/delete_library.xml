@@ -1,26 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical"
-              android:gravity="center"
               android:padding="16dp">
 
-    <Button
-            android:id="@+id/btnLibraries"
-            android:layout_width="wrap_content"
+    <EditText
+            android:id="@+id/edtTextLibraryId"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Bibliotecas" />
-
-    <Button
-            android:id="@+id/btnAddLibrary"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Adicionar Biblioteca"/>
+            android:hint="Enter Library ID to delete"
+            android:inputType="text" />
 
     <Button
             android:id="@+id/btnDeleteLibrary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Eliminar Biblioteca"/>
-
+            android:text="Delete Library"
+            android:layout_gravity="center_horizontal"
+            android:padding="16dp" />
 </LinearLayout>

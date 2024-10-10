@@ -53,6 +53,7 @@ public class LibrariesActivity extends AppCompatActivity {
 
                     StringBuilder builder = new StringBuilder();
                     for (Library library : libraries) {
+                        builder.append("Id: ").append(library.getId()).append("\n");
                         builder.append("Nome: ").append(library.getName()).append("\n");
                         builder.append("Endereço: ").append(library.getAddress()).append("\n");
                         builder.append("Aberto: ").append(library.isOpen() ? "Sim" : "Não").append("\n");
