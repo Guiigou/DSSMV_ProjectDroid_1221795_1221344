@@ -20,6 +20,7 @@ import retrofit2.Response;
 public class LibrariesActivity extends AppCompatActivity {
     private Button btnViewLibraries;
     private TextView txtLibraries;
+    private List<Library> librariesList;  // Lista de bibliotecas recebidas
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,13 +48,16 @@ public class LibrariesActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<Library>> call, Response<List<Library>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    List<Library> libraries = response.body();
-                    // Verifica quantas bibliotecas estão a ser recebidas
-                    txtLibraries.setText("Número de bibliotecas recebidas: " + libraries.size() + "\n\n");
-
+                    librariesList = response.body();  // Guarda as bibliotecas na lista
                     StringBuilder builder = new StringBuilder();
-                    for (Library library : libraries) {
-                        builder.append("Id: ").append(library.getId()).append("\n");
+
+                    // Atribui IDs locais para exibição
+                    for (int i = 0; i < librariesList.size(); i++) {
+                        Library library = librariesList.get(i);
+                        library.setLocalId(i + 1);  // Atribui um ID local (sequencial)
+
+                        // Exibe as bibliotecas com os IDs locais
+                        builder.append("Local ID: ").append(library.getLocalId()).append("\n");
                         builder.append("Nome: ").append(library.getName()).append("\n");
                         builder.append("Endereço: ").append(library.getAddress()).append("\n");
                         builder.append("Aberto: ").append(library.isOpen() ? "Sim" : "Não").append("\n");
@@ -61,7 +65,7 @@ public class LibrariesActivity extends AppCompatActivity {
                         builder.append("Hora de Fecho: ").append(library.getCloseTime()).append("\n");
                         builder.append("-----------------------------------\n");
                     }
-                    txtLibraries.append(builder.toString());  // Atualiza o TextView com a lista de bibliotecas
+                    txtLibraries.setText(builder.toString());  // Atualiza o TextView com a lista de bibliotecas
                 } else {
                     txtLibraries.setText("Erro ao obter as bibliotecas.");
                 }
@@ -72,6 +76,5 @@ public class LibrariesActivity extends AppCompatActivity {
                 txtLibraries.setText("Erro ao obter as bibliotecas: " + t.getMessage());
             }
         });
-
     }
 }
