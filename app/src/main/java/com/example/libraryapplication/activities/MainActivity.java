@@ -7,46 +7,23 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.libraryapplication.R;
 
-
 public class MainActivity extends AppCompatActivity {
-    private Button btnLibraries;
-    private Button btnAddLibrary;
-    private Button btnDeleteLibrary;
+    private Button btnLibraryMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        btnLibraries = findViewById(R.id.btnLibraries);
-        btnAddLibrary = findViewById(R.id.btnAddLibrary);
-        btnDeleteLibrary = findViewById(R.id.btnDeleteLibrary);
+        btnLibraryMenu = findViewById(R.id.btnLibraryMenu);
 
-        btnLibraries.setOnClickListener(new View.OnClickListener() {
+        btnLibraryMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Redireciona para a LibrariesActivity
-                Intent intent = new Intent(MainActivity.this, LibrariesActivity.class);
-                startActivity(intent);
-            }
-        });
-
-
-        btnAddLibrary.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, AddLibraryActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        btnDeleteLibrary.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, DeleteLibraryActivity.class);
+                // Redireciona para a LibraryMenuActivity
+                Intent intent = new Intent(MainActivity.this, LibraryMenuActivity.class);
                 startActivity(intent);
             }
         });
     }
 }
-
