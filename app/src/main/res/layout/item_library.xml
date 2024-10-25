@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              android:padding="8dp"
+              android:background="?android:attr/selectableItemBackground"
+              android:gravity="center_vertical">
+
+    <TextView
+            android:id="@+id/txtLibraryName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nome da Biblioteca"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:paddingBottom="4dp"
+            android:gravity="center_horizontal" />
+
+    <TextView
+            android:id="@+id/txtLibraryAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Endereço da Biblioteca"
+            android:textSize="14sp"
+            android:paddingBottom="4dp"
+            android:gravity="center_horizontal" />
+
+    <TextView
+            android:id="@+id/txtLibraryHours"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Horário de Funcionamento"
+            android:textSize="14sp"
+            android:textColor="#757575"
+            android:gravity="center_horizontal" />
+
+    <!-- Linha divisória -->
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#D3D3D3"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"/>
+</LinearLayout>

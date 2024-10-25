@@ -8,20 +8,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.libraryapplication.R;
 
 public class MainActivity extends AppCompatActivity {
-    private Button btnLibraryMenu;
+
+    private Button btnViewLibraries;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        btnLibraryMenu = findViewById(R.id.btnLibraryMenu);
+        // Inicializando o botão
+        btnViewLibraries = findViewById(R.id.btnViewLibraries);
 
-        btnLibraryMenu.setOnClickListener(new View.OnClickListener() {
+        // Configurando o clique do botão para abrir a lista de bibliotecas
+        btnViewLibraries.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Redireciona para a LibraryMenuActivity
-                Intent intent = new Intent(MainActivity.this, LibraryMenuActivity.class);
+                Intent intent = new Intent(MainActivity.this, LibrariesActivity.class);
                 startActivity(intent);
             }
         });

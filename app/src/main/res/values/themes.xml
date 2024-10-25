@@ -1,9 +1,10 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.LibraryApplication" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    <!-- Tema principal do aplicativo -->
+    <style name="Theme.LibraryApplication" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">#D3BCA2</item> <!-- Bege claro -->
+        <item name="colorPrimaryVariant">#C5A885</item> <!-- Tom mais escuro de bege -->
+        <item name="colorOnPrimary">#FFFFFF</item> <!-- Texto branco sobre o primário -->
+        <item name="colorSecondary">#C5A885</item> <!-- Bege para elementos secundários -->
+        <item name="android:windowBackground">#FAF3E0</item> <!-- Cor de fundo para atividades -->
     </style>
-
-    <style name="Theme.LibraryApplication" parent="Base.Theme.LibraryApplication"/>
 </resources>

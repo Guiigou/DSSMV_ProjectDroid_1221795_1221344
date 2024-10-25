@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
@@ -5,17 +6,22 @@
               android:padding="16dp">
 
     <EditText
-            android:id="@+id/edtTextLibraryId"
+            android:id="@+id/edtBookISBNToRemove"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter Local Library ID to delete"
-            android:inputType="number" />
+            android:hint="ISBN do Livro a remover"
+            android:inputType="text" />
 
     <Button
-            android:id="@+id/btnDeleteLibrary"
+            android:id="@+id/btnRemoveBook"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Delete Library"
-            android:layout_gravity="center_horizontal"
-            android:padding="16dp" />
+            android:text="Remover Livro" />
+
+    <Button
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Voltar" />
+
 </LinearLayout>

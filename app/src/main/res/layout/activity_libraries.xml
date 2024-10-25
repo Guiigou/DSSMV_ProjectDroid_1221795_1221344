@@ -1,26 +1,22 @@
-<ScrollView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:padding="16dp">
 
-    <LinearLayout
+    <!-- Conteúdo principal da atividade -->
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewLibraries"
             android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+    <Button
+            android:id="@+id/btnBackToMain"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:layout_gravity="center"
+            android:text="Voltar para Início" />
 
-        <Button
-                android:id="@+id/btnViewLibraries"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Visualizar bibliotecas" />
-
-        <TextView
-                android:id="@+id/txtLibraries"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingTop="16dp"
-                android:text="Aqui aparecerão as bibliotecas"
-                android:textSize="16sp" />
-    </LinearLayout>
-</ScrollView>
+</LinearLayout>

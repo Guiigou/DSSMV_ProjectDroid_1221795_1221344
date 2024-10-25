@@ -1,26 +1,30 @@
 package com.example.libraryapplication.models;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Library {
-    private String id;
+    @SerializedName("id")
+    private String id;  // UUID
+
+    @SerializedName("name")
     private String name;
+
+    @SerializedName("address")
     private String address;
+
+    @SerializedName("open")
     private boolean open;
+
+    @SerializedName("openDays")
     private String openDays;
-    private String openStatement;
+
+    @SerializedName("openTime")  // Este campo agora será uma String
     private String openTime;
+
+    @SerializedName("closeTime")  // Este campo agora será uma String
     private String closeTime;
-    private int localId;  // Adiciona um identificador local simples
 
-    // Getters e setters para o localId
-    public int getLocalId() {
-        return localId;
-    }
-
-    public void setLocalId(int localId) {
-        this.localId = localId;
-    }
-
-    // Getters e setters existentes
+    // Getters e setters
     public String getId() {
         return id;
     }
@@ -59,14 +63,6 @@ public class Library {
 
     public void setOpenDays(String openDays) {
         this.openDays = openDays;
-    }
-
-    public String getOpenStatement() {
-        return openStatement;
-    }
-
-    public void setOpenStatement(String openStatement) {
-        this.openStatement = openStatement;
     }
 
     public String getOpenTime() {

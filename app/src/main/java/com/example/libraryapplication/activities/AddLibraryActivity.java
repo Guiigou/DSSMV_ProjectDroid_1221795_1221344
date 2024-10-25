@@ -8,52 +8,78 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.libraryapplication.R;
 import com.example.libraryapplication.models.Library;
-import com.example.libraryapplication.models.LocalTime;
 import com.example.libraryapplication.services.ApiClient;
 import com.example.libraryapplication.services.LibraryService;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class AddLibraryActivity extends AppCompatActivity {
-    private EditText edtName, edtAddress, edtOpenDays, edtOpenHour, edtOpenMinute, edtCloseHour, edtCloseMinute;
-    private Button btnAddLibrary;
+
+    private EditText edtLibraryName;
+    private EditText edtLibraryAddress;
+    private EditText edtOpenTime;
+    private EditText edtCloseTime;
+    private Button btnSaveLibrary;
+    private Button btnBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_library);
 
-        edtName = findViewById(R.id.edtName);
-        edtAddress = findViewById(R.id.edtAddress);
-        edtOpenDays = findViewById(R.id.edtOpenDays);
-        edtOpenHour = findViewById(R.id.edtOpenHour);
-        edtOpenMinute = findViewById(R.id.edtOpenMinute);
-        edtCloseHour = findViewById(R.id.edtCloseHour);
-        edtCloseMinute = findViewById(R.id.edtCloseMinute);
-        btnAddLibrary = findViewById(R.id.btnAddLibrary);
+        edtLibraryName = findViewById(R.id.edtLibraryName);
+        edtLibraryAddress = findViewById(R.id.edtLibraryAddress);
+        edtOpenTime = findViewById(R.id.edtOpenTime);
+        edtCloseTime = findViewById(R.id.edtCloseTime);
+        btnSaveLibrary = findViewById(R.id.btnSaveLibrary);
+        btnBack = findViewById(R.id.btnBack);
 
-        btnAddLibrary.setOnClickListener(new View.OnClickListener() {
+        // Configurar clique no botão de salvar biblioteca
+        btnSaveLibrary.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Library library = new Library();
-                library.setName(edtName.getText().toString());
-                library.setAddress(edtAddress.getText().toString());
-                library.setOpenDays(edtOpenDays.getText().toString());
+                String libraryName = edtLibraryName.getText().toString().trim();
+                String libraryAddress = edtLibraryAddress.getText().toString().trim();
+                String openTimeStr = edtOpenTime.getText().toString().trim();
+                String closeTimeStr = edtCloseTime.getText().toString().trim();
 
-                String openTime = String.format("%02d:%02d:00", Integer.parseInt(edtOpenHour.getText().toString()), Integer.parseInt(edtOpenMinute.getText().toString()));
-                String closeTime = String.format("%02d:%02d:00", Integer.parseInt(edtCloseHour.getText().toString()), Integer.parseInt(edtCloseMinute.getText().toString()));
+                if (!libraryName.isEmpty() && !libraryAddress.isEmpty() && !openTimeStr.isEmpty() && !closeTimeStr.isEmpty()) {
+                    try {
+                        // Validando o formato da hora de abertura e fecho
+                        if (!openTimeStr.matches("\\d{2}:\\d{2}") || !closeTimeStr.matches("\\d{2}:\\d{2}")) {
+                            throw new IllegalArgumentException("Erro no formato das horas. Use HH:mm.");
+                        }
 
-                library.setOpenTime(openTime);
-                library.setCloseTime(closeTime);
+                        // Criando a nova biblioteca
+                        Library newLibrary = new Library();
+                        newLibrary.setName(libraryName);
+                        newLibrary.setAddress(libraryAddress);
+                        newLibrary.setOpenTime(openTimeStr);  // Agora é uma String no formato esperado
+                        newLibrary.setCloseTime(closeTimeStr);  // Agora é uma String no formato esperado
 
+                        createLibrary(newLibrary);
+                    } catch (Exception e) {
+                        Toast.makeText(AddLibraryActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    Toast.makeText(AddLibraryActivity.this, "Por favor, preencha todos os campos.", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
 
-                postLibrary(library);
+        // Configurar clique no botão de voltar
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();  // Fecha a atividade atual e volta à anterior
             }
         });
     }
 
-    private void postLibrary(Library library) {
+    // Metodo para criar uma nova biblioteca através da API
+    private void createLibrary(Library library) {
         LibraryService libraryService = ApiClient.getClient().create(LibraryService.class);
         Call<Void> call = libraryService.createLibrary(library);
 
@@ -61,16 +87,19 @@ public class AddLibraryActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
-                    Toast.makeText(AddLibraryActivity.this, "Biblioteca criada com sucesso!", Toast.LENGTH_LONG).show();
-                    finish();
+                    Toast.makeText(AddLibraryActivity.this, "Biblioteca adicionada com sucesso.", Toast.LENGTH_LONG).show();
+                    edtLibraryName.setText("");  // Limpar os campos de texto
+                    edtLibraryAddress.setText("");
+                    edtOpenTime.setText("");
+                    edtCloseTime.setText("");
                 } else {
-                    Toast.makeText(AddLibraryActivity.this, "Erro ao criar a biblioteca.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(AddLibraryActivity.this, "Erro ao adicionar biblioteca. Código: " + response.code(), Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                Toast.makeText(AddLibraryActivity.this, "Erro: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(AddLibraryActivity.this, "Erro ao adicionar biblioteca: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }

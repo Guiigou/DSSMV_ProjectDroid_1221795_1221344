@@ -6,38 +6,33 @@
               android:padding="16dp">
 
     <EditText
-            android:id="@+id/edtLibraryName"
+            android:id="@+id/edtBookTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Nome da Biblioteca" />
+            android:hint="Título do Livro" />
 
     <EditText
-            android:id="@+id/edtLibraryAddress"
+            android:id="@+id/edtBookAuthor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Endereço da Biblioteca" />
+            android:hint="Autor do Livro" />
 
     <EditText
-            android:id="@+id/edtOpenTime"
+            android:id="@+id/edtBookISBN"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Hora de Abertura (HH:mm)" />
-
-    <EditText
-            android:id="@+id/edtCloseTime"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Hora de Fecho (HH:mm)" />
+            android:hint="ISBN do Livro" />
 
     <Button
-            android:id="@+id/btnSaveLibrary"
+            android:id="@+id/btnSaveBook"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Salvar Biblioteca" />
+            android:text="Salvar Livro" />
 
     <Button
             android:id="@+id/btnBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Voltar" />
+
 </LinearLayout>

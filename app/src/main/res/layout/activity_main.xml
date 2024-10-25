@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical"
-              android:gravity="center"
-              android:padding="16dp">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/fundomainactivity">
 
     <Button
-            android:id="@+id/btnLibraryMenu"
+            android:id="@+id/btnViewLibraries"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Bibliotecas" />
-</LinearLayout>
+            android:text="LIBRARY MANAGER"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            android:fontFamily="@font/tangerinebold"
+            android:background="@android:color/transparent"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="270dp"
+            android:layout_marginLeft="250dp"
+            android:layout_alignParentTop="true"
+            android:elevation="4dp" />
+
+</RelativeLayout>

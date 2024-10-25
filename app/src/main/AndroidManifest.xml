@@ -26,11 +26,6 @@
             </intent-filter>
         </activity>
 
-        <!-- LibraryMenuActivity - Página com opções para visualizar, adicionar e remover bibliotecas -->
-        <activity
-                android:name=".activities.LibraryMenuActivity"
-                android:exported="true" />
-
         <!-- LibrariesActivity - Página para visualizar bibliotecas -->
         <activity
                 android:name=".activities.LibrariesActivity"
@@ -41,9 +36,19 @@
                 android:name=".activities.AddLibraryActivity"
                 android:exported="true" />
 
-        <!-- DeleteLibraryActivity - Página para remover uma biblioteca -->
+        <!-- RemoveLibraryActivity - Página para remover uma biblioteca -->
         <activity
-                android:name=".activities.DeleteLibraryActivity"
+                android:name=".activities.RemoveLibraryActivity"
+                android:exported="true" />
+
+        <!-- BooksActivity - Página para visualizar livros em uma biblioteca -->
+        <activity
+                android:name=".activities.BooksActivity"
+                android:exported="true" />
+
+        <!-- AddBookActivity - Página para adicionar um novo livro -->
+        <activity
+                android:name=".activities.AddBookActivity"
                 android:exported="true" />
 
     </application>
