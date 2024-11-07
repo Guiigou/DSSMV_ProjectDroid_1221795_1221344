@@ -1,9 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-            android:id="@+id/nav_add_library"
-            android:title="+ Adicionar Biblioteca" />
+            android:id="@+id/add_library"
+            android:title="Add Library" />
     <item
-            android:id="@+id/nav_remove_library"
-            android:title="- Remover Biblioteca" />
+            android:id="@+id/edit_library"
+            android:title="Edit Library" />
+    <item
+            android:id="@+id/delete_library"
+            android:title="Delete Library" />
 </menu>
