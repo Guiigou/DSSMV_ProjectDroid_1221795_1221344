@@ -6,6 +6,6 @@
             android:id="@+id/edit_library"
             android:title="Edit Library" />
     <item
-            android:id="@+id/delete_library"
+            android:id="@+id/remove_library"
             android:title="Delete Library" />
 </menu>

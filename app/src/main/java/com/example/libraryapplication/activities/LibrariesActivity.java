@@ -105,7 +105,7 @@ public class LibrariesActivity extends AppCompatActivity {
                 } else if (itemId == R.id.edit_library) {
                     // Implementar a lógica para editar a biblioteca
                     return true;
-                } else if (itemId == R.id.delete_library) {
+                } else if (itemId == R.id.remove_library) {
                     startActivity(new Intent(LibrariesActivity.this, RemoveLibraryActivity.class));
                     return true;
                 } else {
