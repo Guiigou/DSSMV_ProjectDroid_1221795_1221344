@@ -63,6 +63,11 @@ public class BooksActivity extends AppCompatActivity {
     }
 
     private void loadBooks() {
+        if (libraryId == null || libraryId.isEmpty()) {
+            Toast.makeText(this, "Erro: ID da biblioteca é inválido", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         BookService bookService = ApiClient.getClient().create(BookService.class);
         Call<List<Book>> call = bookService.getBooks(libraryId);
 
@@ -74,7 +79,7 @@ public class BooksActivity extends AppCompatActivity {
                     bookAdapter = new BookAdapter(BooksActivity.this, booksList);
                     recyclerViewBooks.setAdapter(bookAdapter);
                 } else {
-                    Toast.makeText(BooksActivity.this, "Erro ao carregar livros.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(BooksActivity.this, "Erro ao carregar livros. Código: " + response.code(), Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -84,4 +89,5 @@ public class BooksActivity extends AppCompatActivity {
             }
         });
     }
+
 }

@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.libraryapplication.R;
@@ -49,13 +50,16 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.LibraryV
             holder.txtLibraryHours.setText("Horário: Não disponível");
         }
 
-        // Clique normal: abrir a tela de livros da biblioteca
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, BooksActivity.class);
-                intent.putExtra("libraryId", library.getId());  // Passa o ID da biblioteca para a BooksActivity
-                context.startActivity(intent);
+                if (library.getId() != null) {
+                    Intent intent = new Intent(context, BooksActivity.class);
+                    intent.putExtra("libraryId", library.getId());  // Passa o ID da biblioteca
+                    context.startActivity(intent);
+                } else {
+                    Toast.makeText(context, "Erro: ID da biblioteca é nulo", Toast.LENGTH_LONG).show();
+                }
             }
         });
 
@@ -98,8 +102,6 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.LibraryV
             }
         });
     }
-
-
 
     @Override
     public int getItemCount() {

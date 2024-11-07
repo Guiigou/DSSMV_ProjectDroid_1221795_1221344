@@ -93,7 +93,7 @@ public class LibrariesActivity extends AppCompatActivity {
 
     private void showPopupMenu(View view) {
         PopupMenu popupMenu = new PopupMenu(this, view);
-        popupMenu.getMenuInflater().inflate(R.menu.drawer_menu, popupMenu.getMenu());
+        popupMenu.getMenuInflater().inflate(menu.drawer_menu_library, popupMenu.getMenu());
 
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
@@ -101,12 +101,6 @@ public class LibrariesActivity extends AppCompatActivity {
                 int itemId = item.getItemId();
                 if (itemId == R.id.add_library) {
                     startActivity(new Intent(LibrariesActivity.this, AddLibraryActivity.class));
-                    return true;
-                } else if (itemId == R.id.edit_library) {
-                    // Implementar a lógica para editar a biblioteca
-                    return true;
-                } else if (itemId == R.id.remove_library) {
-                    startActivity(new Intent(LibrariesActivity.this, RemoveLibraryActivity.class));
                     return true;
                 } else {
                     return false;

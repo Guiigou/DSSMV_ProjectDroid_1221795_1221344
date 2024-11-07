@@ -1,7 +1,5 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-            android:id="@+id/add_library"
-            android:title="Add Library" />
+
     <item
             android:id="@+id/edit_library"
             android:title="Edit Library" />
