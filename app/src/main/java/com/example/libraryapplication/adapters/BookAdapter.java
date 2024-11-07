@@ -1,10 +1,14 @@
 package com.example.libraryapplication.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.libraryapplication.R;
@@ -33,10 +37,50 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHolder
         holder.tvBookTitle.setText(book.getTitle());
 
         // Converte a lista de autores numa string separada por vírgulas
-        List<String> authors = book.getAuthors();
-        String authorsText = String.join(", ", authors);
+        String authorsText = String.join(", ", book.getAuthors());
         holder.tvBookAuthor.setText(authorsText);
+
+        // Clique normal para abrir detalhes do livro ou outra ação
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Lógica para abrir detalhes do livro, se necessário
+                Toast.makeText(context, "Livro: " + book.getTitle(), Toast.LENGTH_SHORT).show();
+            }
+        });
+/*
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                PopupMenu popupMenu = new PopupMenu(context, v);
+                popupMenu.inflate(R.menu.book_item_menu); // Certifique-se de criar este menu XML
+
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.edit_book:
+                                // Lógica para editar o livro
+                                Intent editIntent = new Intent(context, EditBookActivity.class);
+                                editIntent.putExtra("isbn", book.getIsbn());
+                                context.startActivity(editIntent);
+                                return true;
+                            case R.id.remove_book:
+                                // Lógica para remover o livro
+                                removeBook(book.getIsbn());
+                                return true;
+                            default:
+                                return false;
+                        }
+                    }
+                });
+
+                popupMenu.show();
+                return true;
+            }
+        });*/
     }
+
 
     @Override
     public int getItemCount() {

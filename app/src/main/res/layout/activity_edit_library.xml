@@ -6,26 +6,43 @@
               android:padding="16dp">
 
     <EditText
-            android:id="@+id/edtEditLibraryName"
+            android:id="@+id/edtLibraryName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Nome da Biblioteca" />
+            android:hint="Nome da Biblioteca"
+            android:inputType="text" />
 
     <EditText
-            android:id="@+id/edtEditLibraryAddress"
+            android:id="@+id/edtLibraryAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Endereço da Biblioteca" />
+            android:hint="Endereço da Biblioteca"
+            android:inputType="textPostalAddress" />
+
+    <EditText
+            android:id="@+id/edtOpenTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Hora de Abertura (HH:mm)"
+            android:inputType="time" />
+
+    <EditText
+            android:id="@+id/edtCloseTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Hora de Fecho (HH:mm)"
+            android:inputType="time" />
 
     <Button
-            android:id="@+id/btnUpdateLibrary"
-            android:layout_width="wrap_content"
+            android:id="@+id/btnSaveChanges"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Atualizar Biblioteca" />
+            android:text="Salvar Alterações" />
 
     <Button
             android:id="@+id/btnBack"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Voltar" />
+
 </LinearLayout>

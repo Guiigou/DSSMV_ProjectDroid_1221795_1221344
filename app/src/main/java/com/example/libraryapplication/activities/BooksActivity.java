@@ -34,40 +34,21 @@ public class BooksActivity extends AppCompatActivity {
         recyclerViewBooks = findViewById(R.id.recyclerViewBooks);
         recyclerViewBooks.setLayoutManager(new LinearLayoutManager(this));
 
-        btnAddBook = findViewById(R.id.btnAddBook);
-        btnBack = findViewById(R.id.btnBackToLibraries);
-
-        // Obtém o ID da biblioteca a partir do Intent
+        // Obter o ID da biblioteca do Intent
         libraryId = getIntent().getStringExtra("libraryId");
 
-        // Carrega os livros da biblioteca
-        loadBooks();
-
-        btnAddBook.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Lógica para adicionar um livro
-                Intent intent = new Intent(BooksActivity.this, AddBookActivity.class);
-                intent.putExtra("libraryId", libraryId);
-                startActivity(intent);
-            }
-        });
-
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Fecha a activity atual e volta para a anterior
-                finish();
-            }
-        });
-    }
-
-    private void loadBooks() {
-        if (libraryId == null || libraryId.isEmpty()) {
-            Toast.makeText(this, "Erro: ID da biblioteca é inválido", Toast.LENGTH_LONG).show();
+        if (libraryId == null) {
+            Toast.makeText(this, "Erro: ID da biblioteca não foi passado.", Toast.LENGTH_LONG).show();
+            finish();
             return;
         }
 
+        // Carregar os livros da biblioteca
+        loadBooks();
+    }
+
+    // Método para carregar livros
+    private void loadBooks() {
         BookService bookService = ApiClient.getClient().create(BookService.class);
         Call<List<Book>> call = bookService.getBooks(libraryId);
 
@@ -76,8 +57,12 @@ public class BooksActivity extends AppCompatActivity {
             public void onResponse(Call<List<Book>> call, Response<List<Book>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     booksList = response.body();
-                    bookAdapter = new BookAdapter(BooksActivity.this, booksList);
-                    recyclerViewBooks.setAdapter(bookAdapter);
+                    if (booksList.isEmpty()) {
+                        Toast.makeText(BooksActivity.this, "Nenhum livro encontrado.", Toast.LENGTH_LONG).show();
+                    } else {
+                        bookAdapter = new BookAdapter(BooksActivity.this, booksList);
+                        recyclerViewBooks.setAdapter(bookAdapter);
+                    }
                 } else {
                     Toast.makeText(BooksActivity.this, "Erro ao carregar livros. Código: " + response.code(), Toast.LENGTH_LONG).show();
                 }

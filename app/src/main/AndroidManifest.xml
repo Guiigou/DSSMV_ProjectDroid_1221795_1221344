@@ -36,6 +36,10 @@
                 android:name=".activities.AddLibraryActivity"
                 android:exported="true" />
 
+        <activity
+                android:name=".activities.EditLibraryActivity"
+                android:exported="true" />
+
         <!-- RemoveLibraryActivity - Página para remover uma biblioteca -->
         <activity
                 android:name=".activities.RemoveLibraryActivity"
