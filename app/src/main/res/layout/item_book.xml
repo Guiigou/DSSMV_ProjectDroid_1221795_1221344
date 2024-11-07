@@ -5,6 +5,13 @@
               android:orientation="vertical"
               android:padding="16dp">
 
+    <ImageView
+            android:id="@+id/imgBookCover"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:contentDescription="Capa do Livro" />
+
     <TextView
             android:id="@+id/tvBookTitle"
             android:layout_width="wrap_content"

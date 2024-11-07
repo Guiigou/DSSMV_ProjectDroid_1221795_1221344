@@ -55,6 +55,14 @@
                 android:name=".activities.AddBookActivity"
                 android:exported="true" />
 
+        <activity
+                android:name=".activities.EditBookActivity"
+                android:exported="true" />
+
+        <activity
+                android:name=".activities.RemoveBookActivity"
+                android:exported="true" />
+
     </application>
 
 </manifest>
