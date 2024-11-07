@@ -103,6 +103,7 @@ public class LibrariesActivity extends AppCompatActivity {
                     startActivity(new Intent(LibrariesActivity.this, AddLibraryActivity.class));
                     return true;
                 } else if (itemId == R.id.edit_library) {
+                    // Implementar a lógica para editar a biblioteca
                     return true;
                 } else if (itemId == R.id.delete_library) {
                     startActivity(new Intent(LibrariesActivity.this, RemoveLibraryActivity.class));
@@ -113,5 +114,8 @@ public class LibrariesActivity extends AppCompatActivity {
             }
         });
 
+        // Adicione esta linha para mostrar o menu pop-up
+        popupMenu.show();
     }
+
 }
