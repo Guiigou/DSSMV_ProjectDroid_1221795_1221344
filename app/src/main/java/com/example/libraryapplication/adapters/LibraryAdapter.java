@@ -16,6 +16,12 @@ import com.example.libraryapplication.activities.BooksActivity;
 import com.example.libraryapplication.activities.EditLibraryActivity;
 import com.example.libraryapplication.activities.RemoveLibraryActivity;
 import com.example.libraryapplication.models.Library;
+import com.example.libraryapplication.services.ApiClient;
+import com.example.libraryapplication.services.LibraryService;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 import java.util.List;
 
 public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.LibraryViewHolder> {
@@ -85,10 +91,7 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.LibraryV
                             context.startActivity(editIntent);
                             return true;
                         } else if (itemId == R.id.remove_library) {
-                            // Lógica para remover a biblioteca
-                            Intent removeIntent = new Intent(context, RemoveLibraryActivity.class);
-                            removeIntent.putExtra("libraryId", library.getId());
-                            context.startActivity(removeIntent);
+                            removeLibrary(library, position);
                             return true;
                         } else {
                             return false;
@@ -99,6 +102,29 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.LibraryV
 
                 popupMenu.show();
                 return true; // Retorna true para indicar que o evento foi consumido
+            }
+        });
+    }
+
+    private void removeLibrary(Library library, int position) {
+        LibraryService libraryService = ApiClient.getClient().create(LibraryService.class);
+        Call<Void> call = libraryService.deleteLibrary(library.getId());
+
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    librariesList.remove(position);
+                    notifyItemRemoved(position);
+                    Toast.makeText(context, "Biblioteca removida com sucesso.", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(context, "Erro ao remover biblioteca. Código: " + response.code(), Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(context, "Erro ao remover biblioteca: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
