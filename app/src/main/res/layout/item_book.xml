@@ -6,7 +6,7 @@
               android:padding="16dp">
 
     <ImageView
-            android:id="@+id/imgBookCover"
+            android:id="@+id/ivBookCover"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:scaleType="centerCrop"
@@ -26,4 +26,6 @@
             android:layout_height="wrap_content"
             android:text="Autor(es) do Livro"
             android:textSize="16sp" />
+
+
 </LinearLayout>

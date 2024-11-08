@@ -1,46 +1,36 @@
 package com.example.libraryapplication.models;
 
 import com.google.gson.annotations.SerializedName;
-
 import java.util.List;
 
 public class BookDTO {
-    @SerializedName("title")
-    private String title;
-    @SerializedName("authors")
-    private List<String> authors;
-   // private String coverUrl; // Adicionado para incluir a capa do livro
+    @SerializedName("book")
+    private Book book; // Importa a classe Book diretamente do package models
 
-    // Construtor
-    public BookDTO(String title, List<String> authors) {
-        this.title = title;
-        this.authors = authors;
-        //this.coverUrl = coverUrl;
-    }
-
-    // Getters
+    // Getters e setters para o objeto `Book`
     public String getTitle() {
-        return title;
+        return book != null ? book.getTitle() : null;
     }
 
-    public List<String> getAuthors() {
-        return authors;
+    public List<Author> getAuthors() {
+        return book != null ? book.getAuthors() : null;
     }
 
-    // Setters
-    public void setTitle(String title) {
-        this.title = title;
+    public String getCoverUrl() {
+        return book != null && book.getCover() != null ? book.getCover().getSmallUrl() : null;
     }
 
-    public void setAuthors(List<String> authors) {
-        this.authors = authors;
+    public Book getBook() {
+        return book;
     }
 
-  /*  public String getCoverUrl() {
-        return coverUrl;
+    public void setBook(Book book) {
+        this.book = book;
     }
 
-    public void setCoverUrl(String coverUrl) {
-        this.coverUrl = coverUrl;
-    }*/
+    public String getIsbn() {
+        return book != null ? book.getIsbn() : null;
+
+    }
+
 }

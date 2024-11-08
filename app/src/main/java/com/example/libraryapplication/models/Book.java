@@ -9,7 +9,7 @@ public class Book {
     private String publishDate;
     private int numberOfPages;
     private CoverUrls cover;
-    private List<String> authors; // Pode ser uma lista de autores
+    private List<Author> authors; // Pode ser uma lista de autores
     private String byStatement;
     private List<String> subjectPeople;
     private List<String> subjectPlaces;
@@ -17,7 +17,7 @@ public class Book {
     private List<String> subjects;
 
     // Construtor para criar um novo livro
-    public Book(String title, String description, String isbn, String publishDate, int numberOfPages, CoverUrls cover, List<String> authors) {
+    public Book(String title, String description, String isbn, String publishDate, int numberOfPages, CoverUrls cover, List<Author> authors) {
         this.title = title;
         this.description = description;
         this.isbn = isbn;
@@ -76,11 +76,11 @@ public class Book {
         this.cover = cover;
     }
 
-    public List<String> getAuthors() {
+    public List<Author> getAuthors() {
         return authors;
     }
 
-    public void setAuthors(List<String> authors) {
+    public void setAuthors(List<Author> authors) {
         this.authors = authors;
     }
 

@@ -1,21 +1,23 @@
 package com.example.libraryapplication.adapters;
 
 import android.content.Context;
-import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.PopupMenu;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import com.bumptech.glide.Glide;
 import com.example.libraryapplication.R;
-import com.example.libraryapplication.activities.EditBookActivity;
-import com.example.libraryapplication.models.Book;
 import com.example.libraryapplication.models.BookDTO;
+import com.example.libraryapplication.models.Author;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.List;
 
 public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHolder> {
@@ -38,56 +40,52 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHolder
     public void onBindViewHolder(@NonNull BookViewHolder holder, int position) {
         BookDTO book = booksList.get(position);
 
-        // Defina um título padrão caso esteja nulo
         holder.tvBookTitle.setText(book.getTitle() != null ? book.getTitle() : "Título indisponível");
 
-        // Verifique se a lista de autores não é nula antes de convertê-la
         if (book.getAuthors() != null && !book.getAuthors().isEmpty()) {
-            String authorsText = String.join(", ", book.getAuthors());
-            holder.tvBookAuthor.setText(authorsText);
+            StringBuilder authorsText = new StringBuilder();
+            for (Author author : book.getAuthors()) {
+                if (authorsText.length() > 0) {
+                    authorsText.append(", ");
+                }
+                authorsText.append(author.getName());
+            }
+            holder.tvBookAuthor.setText(authorsText.toString());
         } else {
             holder.tvBookAuthor.setText("Autor desconhecido");
         }
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Lógica para abrir detalhes do livro, se necessário
-                Toast.makeText(context, "Livro: " + book.getTitle(), Toast.LENGTH_SHORT).show();
+        try {
+            // Remove os traços do ISBN
+            String isbn = book.getIsbn().replaceAll("-", ""); // Remove os traços do ISBN
+            String encodedIsbn = URLEncoder.encode(isbn, "UTF-8");
+            String coverUrl = "http://193.136.62.24/api/v1/assets/cover/" + encodedIsbn + "-S.jpg"; // Use a extensão correta para a imagem grande
+
+            Log.d("BookAdapter", "Cover URL: " + coverUrl);
+
+            if (coverUrl != null) {
+                Picasso.get()
+                        .load(coverUrl)
+                        .into(holder.ivBookCover, new Callback() {
+                            @Override
+                            public void onSuccess() {
+                                Log.d("BookAdapter", "Imagem carregada com sucesso.");
+                            }
+
+                            @Override
+                            public void onError(Exception e) {
+                                Log.e("BookAdapter", "Erro ao carregar a imagem: " + e.getMessage());
+                            }
+                        });
+
             }
-        });
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            Log.e("BookAdapter", "Erro ao codificar a URL da imagem: " + e.getMessage());
+        }
 
-      /*  // Long press para mostrar popup com opções de editar/remover (descomente se necessário)
-        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                PopupMenu popupMenu = new PopupMenu(context, v);
-                popupMenu.inflate(R.menu.drawer_menu_book); // Certifique-se de criar este menu XML
 
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.edit_book:
-                                // Lógica para editar o livro
-                                Intent editIntent = new Intent(context, EditBookActivity.class);
-                                editIntent.putExtra("isbn", book.getIsbn());
-                                context.startActivity(editIntent);
-                                return true;
-                            case R.id.remove_book:
-                                // Lógica para remover o livro
-                                removeBook(book.getIsbn());
-                                return true;
-                            default:
-                                return false;
-                        }
-                    }
-                });
 
-                popupMenu.show();
-                return true;
-            }
-        });*/
     }
 
     @Override
@@ -98,11 +96,13 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHolder
     public static class BookViewHolder extends RecyclerView.ViewHolder {
         TextView tvBookTitle;
         TextView tvBookAuthor;
+        ImageView ivBookCover; // Certifique-se de ter uma ImageView no layout
 
         public BookViewHolder(@NonNull View itemView) {
             super(itemView);
             tvBookTitle = itemView.findViewById(R.id.tvBookTitle);
             tvBookAuthor = itemView.findViewById(R.id.tvBookAuthor);
+            ivBookCover = itemView.findViewById(R.id.ivBookCover); // Adicione isso
         }
     }
 }

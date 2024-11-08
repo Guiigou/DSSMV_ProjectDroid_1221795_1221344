@@ -7,6 +7,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.libraryapplication.R;
+import com.example.libraryapplication.models.Author;
 import com.example.libraryapplication.models.Book;
 import com.example.libraryapplication.models.CoverUrls;
 import com.example.libraryapplication.services.ApiClient;
@@ -14,7 +15,6 @@ import com.example.libraryapplication.services.BookService;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,24 +37,21 @@ public class AddBookActivity extends AppCompatActivity {
         btnSaveBook = findViewById(R.id.btnSaveBook);
         btnBack = findViewById(R.id.btnBack);
 
-        // Obtém o ID da biblioteca a partir do Intent
         libraryId = getIntent().getStringExtra("libraryId");
 
         btnSaveBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Cria um novo livro
                 String title = edtBookTitle.getText().toString();
-                String author = edtBookAuthor.getText().toString();
+                String authorName = edtBookAuthor.getText().toString();
                 String isbn = edtBookISBN.getText().toString();
 
-                if (title.isEmpty() || author.isEmpty() || isbn.isEmpty()) {
+                if (title.isEmpty() || authorName.isEmpty() || isbn.isEmpty()) {
                     Toast.makeText(AddBookActivity.this, "Por favor, preencha todos os campos", Toast.LENGTH_LONG).show();
                 } else {
-                    List<String> authors = new ArrayList<>();
-                    authors.add(author);
+                    List<Author> authors = new ArrayList<>();
+                    authors.add(new Author(null, authorName, null, null, null, null));
 
-                    // Para os outros campos, vamos utilizar valores padrão
                     CoverUrls coverUrls = new CoverUrls(); // Pode deixar vazio para agora
                     Book newBook = new Book(title, "", isbn, "", 0, coverUrls, authors);
 
@@ -66,7 +63,6 @@ public class AddBookActivity extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Fecha a activity atual e volta para a anterior
                 finish();
             }
         });
