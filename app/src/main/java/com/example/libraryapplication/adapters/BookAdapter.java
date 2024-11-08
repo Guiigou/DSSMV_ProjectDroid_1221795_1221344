@@ -59,7 +59,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHolder
             // Remove os traços do ISBN
             String isbn = book.getIsbn().replaceAll("-", ""); // Remove os traços do ISBN
             String encodedIsbn = URLEncoder.encode(isbn, "UTF-8");
-            String coverUrl = "http://193.136.62.24/api/v1/assets/cover/" + encodedIsbn + "-S.jpg"; // Use a extensão correta para a imagem grande
+            String coverUrl = "http://193.136.62.24/v1/assets/cover/" + encodedIsbn + "-M.jpg"; // Use a versão "Medium" da imagem para melhor qualidade
 
             Log.d("BookAdapter", "Cover URL: " + coverUrl);
 
@@ -83,10 +83,8 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHolder
             e.printStackTrace();
             Log.e("BookAdapter", "Erro ao codificar a URL da imagem: " + e.getMessage());
         }
-
-
-
     }
+
 
     @Override
     public int getItemCount() {

@@ -3,13 +3,16 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:orientation="vertical"
-              android:padding="16dp">
+              android:padding="16dp"
+              android:background="?android:attr/selectableItemBackground"
+              android:layout_marginBottom="8dp">
 
     <ImageView
             android:id="@+id/ivBookCover"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:scaleType="centerCrop"
+            android:layout_height="250dp"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
             android:contentDescription="Capa do Livro" />
 
     <TextView
@@ -18,14 +21,21 @@
             android:layout_height="wrap_content"
             android:text="Título do Livro"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:paddingTop="8dp" />
 
     <TextView
             android:id="@+id/tvBookAuthor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Autor(es) do Livro"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:paddingBottom="8dp" />
 
-
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp" />
 </LinearLayout>
