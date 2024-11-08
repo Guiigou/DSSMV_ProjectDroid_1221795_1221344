@@ -17,17 +17,21 @@ import com.example.libraryapplication.models.Library;
 import com.example.libraryapplication.services.ApiClient;
 import com.example.libraryapplication.services.LibraryService;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static com.example.libraryapplication.R.*;
 
 public class LibrariesActivity extends AppCompatActivity {
     private RecyclerView recyclerViewLibraries;
     private Button btnBackToMain;
     private List<Library> librariesList;
+    private LibraryAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +55,15 @@ public class LibrariesActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 showPopupMenu(v); // Chama a função para mostrar o menu pop-up
+            }
+        });
+
+        // Inicializar o botão de filtro
+        ImageButton filterButton = findViewById(R.id.filterButton);
+        filterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showFilterMenu(v);
             }
         });
 
@@ -83,7 +96,7 @@ public class LibrariesActivity extends AppCompatActivity {
                     if (librariesList.isEmpty()) {
                         Toast.makeText(LibrariesActivity.this, "Nenhuma biblioteca encontrada.", Toast.LENGTH_LONG).show();
                     } else {
-                        LibraryAdapter adapter = new LibraryAdapter(LibrariesActivity.this, librariesList);
+                        adapter = new LibraryAdapter(LibrariesActivity.this, librariesList);
                         recyclerViewLibraries.setAdapter(adapter);
                     }
                 } else {
@@ -98,9 +111,10 @@ public class LibrariesActivity extends AppCompatActivity {
         });
     }
 
+    // Mostrar o menu de opções
     private void showPopupMenu(View view) {
         PopupMenu popupMenu = new PopupMenu(this, view);
-        popupMenu.getMenuInflater().inflate(menu.drawer_menu_library, popupMenu.getMenu());
+        popupMenu.getMenuInflater().inflate(R.menu.drawer_menu_library, popupMenu.getMenu());
 
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
@@ -115,8 +129,58 @@ public class LibrariesActivity extends AppCompatActivity {
             }
         });
 
-        // Adicione esta linha para mostrar o menu pop-up
         popupMenu.show();
     }
 
+    // Mostrar o menu de filtro
+    private void showFilterMenu(View view) {
+        PopupMenu filterMenu = new PopupMenu(this, view);
+        filterMenu.getMenuInflater().inflate(R.menu.filter_menu, filterMenu.getMenu());
+
+        filterMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                int itemId = item.getItemId();
+                if (itemId == R.id.filter_open) {
+                    filterLibraries(true);
+                    return true;
+                } else if (itemId == R.id.filter_closed) {
+                    filterLibraries(false);
+                    return true;
+                } else if (itemId == R.id.filter_all) {
+                    adapter.updateLibraries(librariesList);
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        });
+
+        filterMenu.show();
+    }
+
+    // Filtrar bibliotecas com base no horário de abertura/fechamento
+    private void filterLibraries(boolean openNow) {
+        List<Library> filteredList = new ArrayList<>();
+        String currentTime = new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new Date());
+
+        for (Library library : librariesList) {
+            String openTime = library.getOpenTime();
+            String closeTime = library.getCloseTime();
+
+            if (openTime != null && closeTime != null && !openTime.isEmpty() && !closeTime.isEmpty()) {
+                if (openNow) {
+                    if (currentTime.compareTo(openTime) >= 0 && currentTime.compareTo(closeTime) <= 0) {
+                        filteredList.add(library);
+                    }
+                } else {
+                    if (currentTime.compareTo(openTime) < 0 || currentTime.compareTo(closeTime) > 0) {
+                        filteredList.add(library);
+                    }
+                }
+            }
+        }
+
+        adapter.updateLibraries(filteredList);
+    }
 }

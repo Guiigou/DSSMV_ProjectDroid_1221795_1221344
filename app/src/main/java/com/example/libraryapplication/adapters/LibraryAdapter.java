@@ -129,6 +129,12 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.LibraryV
         });
     }
 
+    // Método para atualizar a lista de bibliotecas no Adapter
+    public void updateLibraries(List<Library> newLibrariesList) {
+        this.librariesList = newLibrariesList;
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
         return librariesList.size();

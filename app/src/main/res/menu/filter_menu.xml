@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+            android:id="@+id/filter_open"
+            android:title="Abertas Agora" />
+    <item
+            android:id="@+id/filter_closed"
+            android:title="Fechadas Agora" />
+    <item
+            android:id="@+id/filter_all"
+            android:title="Todas as Bibliotecas" />
+</menu>
