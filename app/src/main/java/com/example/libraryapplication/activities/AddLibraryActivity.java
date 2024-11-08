@@ -1,15 +1,19 @@
 package com.example.libraryapplication.activities;
 
+import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TimePicker;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.libraryapplication.R;
 import com.example.libraryapplication.models.Library;
 import com.example.libraryapplication.services.ApiClient;
 import com.example.libraryapplication.services.LibraryService;
+
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -36,6 +40,22 @@ public class AddLibraryActivity extends AppCompatActivity {
         btnSaveLibrary = findViewById(R.id.btnSaveLibrary);
         btnBack = findViewById(R.id.btnBack);
 
+        // Abrir TimePickerDialog ao clicar no campo de hora de abertura
+        edtOpenTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showTimePickerDialog(edtOpenTime);
+            }
+        });
+
+        // Abrir TimePickerDialog ao clicar no campo de hora de fecho
+        edtCloseTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showTimePickerDialog(edtCloseTime);
+            }
+        });
+
         // Configurar clique no botão de salvar biblioteca
         btnSaveLibrary.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,23 +66,13 @@ public class AddLibraryActivity extends AppCompatActivity {
                 String closeTimeStr = edtCloseTime.getText().toString().trim();
 
                 if (!libraryName.isEmpty() && !libraryAddress.isEmpty() && !openTimeStr.isEmpty() && !closeTimeStr.isEmpty()) {
-                    try {
-                        // Validando o formato da hora de abertura e fecho
-                        if (!openTimeStr.matches("\\d{2}:\\d{2}") || !closeTimeStr.matches("\\d{2}:\\d{2}")) {
-                            throw new IllegalArgumentException("Erro no formato das horas. Use HH:mm.");
-                        }
+                    Library newLibrary = new Library();
+                    newLibrary.setName(libraryName);
+                    newLibrary.setAddress(libraryAddress);
+                    newLibrary.setOpenTime(openTimeStr);
+                    newLibrary.setCloseTime(closeTimeStr);
 
-                        // Criando a nova biblioteca
-                        Library newLibrary = new Library();
-                        newLibrary.setName(libraryName);
-                        newLibrary.setAddress(libraryAddress);
-                        newLibrary.setOpenTime(openTimeStr);  // Agora é uma String no formato esperado
-                        newLibrary.setCloseTime(closeTimeStr);  // Agora é uma String no formato esperado
-
-                        createLibrary(newLibrary);
-                    } catch (Exception e) {
-                        Toast.makeText(AddLibraryActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                    }
+                    createLibrary(newLibrary);
                 } else {
                     Toast.makeText(AddLibraryActivity.this, "Por favor, preencha todos os campos.", Toast.LENGTH_LONG).show();
                 }
@@ -78,7 +88,20 @@ public class AddLibraryActivity extends AppCompatActivity {
         });
     }
 
-    // Metodo para criar uma nova biblioteca através da API
+    // Método para exibir TimePickerDialog e definir o horário selecionado no EditText correspondente
+    private void showTimePickerDialog(EditText editText) {
+        TimePickerDialog timePickerDialog = new TimePickerDialog(this,
+                new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        String formattedTime = String.format(Locale.getDefault(), "%02d:%02d", hourOfDay, minute);
+                        editText.setText(formattedTime);
+                    }
+                }, 0, 0, true); // Definir o valor inicial como 00:00 e usar o formato 24 horas
+        timePickerDialog.show();
+    }
+
+    // Método para criar uma nova biblioteca através da API
     private void createLibrary(Library library) {
         LibraryService libraryService = ApiClient.getClient().create(LibraryService.class);
         Call<Void> call = libraryService.createLibrary(library);
@@ -88,7 +111,7 @@ public class AddLibraryActivity extends AppCompatActivity {
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(AddLibraryActivity.this, "Biblioteca adicionada com sucesso.", Toast.LENGTH_LONG).show();
-                    edtLibraryName.setText("");  // Limpar os campos de texto
+                    edtLibraryName.setText("");
                     edtLibraryAddress.setText("");
                     edtOpenTime.setText("");
                     edtCloseTime.setText("");

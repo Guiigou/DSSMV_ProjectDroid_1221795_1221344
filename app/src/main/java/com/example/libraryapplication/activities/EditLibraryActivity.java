@@ -1,15 +1,19 @@
 package com.example.libraryapplication.activities;
 
+import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TimePicker;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.libraryapplication.R;
 import com.example.libraryapplication.models.Library;
 import com.example.libraryapplication.services.ApiClient;
 import com.example.libraryapplication.services.LibraryService;
+
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -57,6 +61,21 @@ public class EditLibraryActivity extends AppCompatActivity {
         edtLibraryAddress.setText(libraryAddress);
         edtOpenTime.setText(openTime);
         edtCloseTime.setText(closeTime);
+
+        // Configurar para abrir o TimePickerDialog ao clicar nos campos de hora
+        edtOpenTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showTimePickerDialog(edtOpenTime);
+            }
+        });
+
+        edtCloseTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showTimePickerDialog(edtCloseTime);
+            }
+        });
 
         // Configurar o botão de salvar mudanças
         btnSaveChanges.setOnClickListener(new View.OnClickListener() {
@@ -114,5 +133,18 @@ public class EditLibraryActivity extends AppCompatActivity {
                 Toast.makeText(EditLibraryActivity.this, "Erro ao atualizar a biblioteca: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    // Metodo para exibir o TimePickerDialog e definir o horário selecionado no EditText correspondente
+    private void showTimePickerDialog(final EditText editText) {
+        TimePickerDialog timePickerDialog = new TimePickerDialog(this,
+                new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        String formattedTime = String.format(Locale.getDefault(), "%02d:%02d", hourOfDay, minute);
+                        editText.setText(formattedTime);
+                    }
+                }, 0, 0, true); // Definir o valor inicial como 00:00 e usar o formato 24 horas
+        timePickerDialog.show();
     }
 }

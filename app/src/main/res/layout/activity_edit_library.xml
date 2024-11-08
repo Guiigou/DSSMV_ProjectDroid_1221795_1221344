@@ -24,14 +24,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Hora de Abertura (HH:mm)"
-            android:inputType="time" />
+            android:focusable="false" /> <!-- Torna o campo não editável manualmente -->
 
     <EditText
             android:id="@+id/edtCloseTime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Hora de Fecho (HH:mm)"
-            android:inputType="time" />
+            android:focusable="false" /> <!-- Torna o campo não editável manualmente -->
 
     <Button
             android:id="@+id/btnSaveChanges"
@@ -44,5 +44,4 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Voltar" />
-
 </LinearLayout>

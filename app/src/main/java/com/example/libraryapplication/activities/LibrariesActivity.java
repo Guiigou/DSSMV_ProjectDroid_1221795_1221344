@@ -62,6 +62,13 @@ public class LibrariesActivity extends AppCompatActivity {
         loadLibraries();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Recarregar a lista de bibliotecas sempre que a activity for retomada
+        loadLibraries();
+    }
+
     // Carregar a lista de bibliotecas da API
     private void loadLibraries() {
         LibraryService libraryService = ApiClient.getClient().create(LibraryService.class);

@@ -11,12 +11,12 @@
             android:text="LIBRARY MANAGER"
             android:textColor="@android:color/black"
             android:textStyle="bold"
-            android:fontFamily="@font/tangerinebold"
             android:background="@android:color/transparent"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="270dp"
             android:layout_marginLeft="250dp"
             android:layout_alignParentTop="true"
-            android:elevation="4dp" />
+            android:elevation="4dp"
+            android:textSize="17sp"/>
 
 </RelativeLayout>
