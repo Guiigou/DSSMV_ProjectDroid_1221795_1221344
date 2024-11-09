@@ -70,7 +70,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHolder
 
             // Enviar a URL da capa ao BookDetailActivity
             if (libraryBook.getBook() != null && libraryBook.getBook().getCover() != null) {
-                String coverUrl = "http://193.136.62.24" + libraryBook.getBook().getCover().getMediumUrl();
+                String coverUrl = "http://193.136.62.24" + libraryBook.getBook().getCover().getMediumUrl().replace("/api", "");
                 Log.d("BookAdapter", "Cover URL enviado: " + coverUrl);
                 intent.putExtra("coverUrl", coverUrl);
             }
