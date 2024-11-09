@@ -1,6 +1,7 @@
 package com.example.libraryapplication.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,10 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.libraryapplication.R;
-import com.example.libraryapplication.models.BookDTO;
-import com.example.libraryapplication.models.Author;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
+import com.example.libraryapplication.activities.BookDetailActivity;
+import com.example.libraryapplication.models.LibraryBook;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -22,9 +21,9 @@ import java.util.List;
 
 public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHolder> {
     private Context context;
-    private List<BookDTO> booksList;
+    private List<LibraryBook> booksList;
 
-    public BookAdapter(Context context, List<BookDTO> booksList) {
+    public BookAdapter(Context context, List<LibraryBook> booksList) {
         this.context = context;
         this.booksList = booksList;
     }
@@ -38,53 +37,47 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull BookViewHolder holder, int position) {
-        BookDTO book = booksList.get(position);
+        LibraryBook libraryBook = booksList.get(position);
 
-        holder.tvBookTitle.setText(book.getTitle() != null ? book.getTitle() : "Título indisponível");
+        if (libraryBook.getBook() != null) {
+            holder.tvBookTitle.setText(libraryBook.getBookTitle());
+            holder.tvBookAuthor.setText(libraryBook.getBookAuthors());
 
-        if (book.getAuthors() != null && !book.getAuthors().isEmpty()) {
-            StringBuilder authorsText = new StringBuilder();
-            for (Author author : book.getAuthors()) {
-                if (authorsText.length() > 0) {
-                    authorsText.append(", ");
-                }
-                authorsText.append(author.getName());
-            }
-            holder.tvBookAuthor.setText(authorsText.toString());
-        } else {
-            holder.tvBookAuthor.setText("Autor desconhecido");
-        }
+            try {
+                String isbn = libraryBook.getIsbn().replaceAll("-", "");
+                String encodedIsbn = URLEncoder.encode(isbn, "UTF-8");
+                String coverUrl = "http://193.136.62.24/v1/assets/cover/" + encodedIsbn + "-M.jpg";
 
-        try {
-            // Remove os traços do ISBN
-            String isbn = book.getIsbn().replaceAll("-", ""); // Remove os traços do ISBN
-            String encodedIsbn = URLEncoder.encode(isbn, "UTF-8");
-            String coverUrl = "http://193.136.62.24/v1/assets/cover/" + encodedIsbn + "-M.jpg"; // Use a versão "Medium" da imagem para melhor qualidade
+                Log.d("BookAdapter", "Cover URL: " + coverUrl); // Log para verificar a URL da capa
 
-            Log.d("BookAdapter", "Cover URL: " + coverUrl);
-
-            if (coverUrl != null) {
-                Picasso.get()
+                Glide.with(context)
                         .load(coverUrl)
-                        .into(holder.ivBookCover, new Callback() {
-                            @Override
-                            public void onSuccess() {
-                                Log.d("BookAdapter", "Imagem carregada com sucesso.");
-                            }
+                        .into(holder.ivBookCover);
 
-                            @Override
-                            public void onError(Exception e) {
-                                Log.e("BookAdapter", "Erro ao carregar a imagem: " + e.getMessage());
-                            }
-                        });
-
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+                Log.e("BookAdapter", "Erro ao codificar a URL da imagem: " + e.getMessage());
             }
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-            Log.e("BookAdapter", "Erro ao codificar a URL da imagem: " + e.getMessage());
         }
-    }
 
+        holder.itemView.setOnClickListener(v -> {
+            Log.d("BookAdapter", "Clicando no livro: " + libraryBook.getBookTitle());
+            Intent intent = new Intent(context, BookDetailActivity.class);
+            intent.putExtra("title", libraryBook.getBookTitle());
+            intent.putExtra("authors", libraryBook.getBookAuthors());
+            intent.putExtra("description", libraryBook.getBookDescription());
+            intent.putExtra("stock", libraryBook.getStock());
+
+            // Enviar a URL da capa ao BookDetailActivity
+            if (libraryBook.getBook() != null && libraryBook.getBook().getCover() != null) {
+                String coverUrl = "http://193.136.62.24" + libraryBook.getBook().getCover().getMediumUrl();
+                Log.d("BookAdapter", "Cover URL enviado: " + coverUrl);
+                intent.putExtra("coverUrl", coverUrl);
+            }
+
+            context.startActivity(intent);
+        });
+    }
 
     @Override
     public int getItemCount() {
@@ -94,13 +87,13 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHolder
     public static class BookViewHolder extends RecyclerView.ViewHolder {
         TextView tvBookTitle;
         TextView tvBookAuthor;
-        ImageView ivBookCover; // Certifique-se de ter uma ImageView no layout
+        ImageView ivBookCover;
 
         public BookViewHolder(@NonNull View itemView) {
             super(itemView);
             tvBookTitle = itemView.findViewById(R.id.tvBookTitle);
             tvBookAuthor = itemView.findViewById(R.id.tvBookAuthor);
-            ivBookCover = itemView.findViewById(R.id.ivBookCover); // Adicione isso
+            ivBookCover = itemView.findViewById(R.id.ivBookCover);
         }
     }
 }

@@ -63,6 +63,11 @@
                 android:name=".activities.RemoveBookActivity"
                 android:exported="true" />
 
+        <activity
+                android:name=".activities.BookDetailActivity"
+                android:exported="true" />
+
+
     </application>
 
 </manifest>

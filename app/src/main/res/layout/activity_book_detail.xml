@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        <ImageView
+                android:id="@+id/ivBookCover"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
+                android:contentDescription="Capa do Livro" />
+
+        <TextView
+                android:id="@+id/tvBookTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Título do Livro"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:paddingTop="16dp" />
+
+        <TextView
+                android:id="@+id/tvBookAuthor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Autor(es) do Livro"
+                android:textSize="18sp"
+                android:paddingTop="8dp" />
+
+        <TextView
+                android:id="@+id/tvBookDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Descrição do Livro"
+                android:textSize="16sp"
+                android:paddingTop="16dp" />
+
+        <TextView
+                android:id="@+id/tvBookStock"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Estoque"
+                android:textSize="16sp"
+                android:paddingTop="8dp" />
+
+    </LinearLayout>
+</ScrollView>

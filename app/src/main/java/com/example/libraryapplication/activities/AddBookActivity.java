@@ -11,7 +11,7 @@ import com.example.libraryapplication.models.Author;
 import com.example.libraryapplication.models.Book;
 import com.example.libraryapplication.models.CoverUrls;
 import com.example.libraryapplication.services.ApiClient;
-import com.example.libraryapplication.services.BookService;
+import com.example.libraryapplication.services.LibraryBookService;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -69,8 +69,8 @@ public class AddBookActivity extends AppCompatActivity {
     }
 
     private void addBook(Book book) {
-        BookService bookService = ApiClient.getClient().create(BookService.class);
-        Call<Void> call = bookService.createBook(libraryId, book.getIsbn(), book);
+        LibraryBookService libraryBookService = ApiClient.getClient().create(LibraryBookService.class);
+        Call<Void> call = libraryBookService.createBook(libraryId, book.getIsbn(), book);
 
         call.enqueue(new Callback<Void>() {
             @Override
