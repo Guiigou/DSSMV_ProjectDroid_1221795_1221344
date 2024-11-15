@@ -7,23 +7,16 @@ import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.libraryapplication.R;
-import com.example.libraryapplication.models.Author;
-import com.example.libraryapplication.models.Book;
-import com.example.libraryapplication.models.CoverUrls;
+import com.example.libraryapplication.models.CreateLibraryBookRequest;
 import com.example.libraryapplication.services.ApiClient;
 import com.example.libraryapplication.services.LibraryBookService;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import java.util.ArrayList;
-import java.util.List;
 
 public class AddBookActivity extends AppCompatActivity {
-    private EditText edtBookTitle;
-    private EditText edtBookAuthor;
-    private EditText edtBookISBN;
-    private Button btnSaveBook;
-    private Button btnBack;
+
+    private EditText etBookIsbn, etBookStock;
     private String libraryId;
 
     @Override
@@ -31,61 +24,49 @@ public class AddBookActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_book);
 
-        edtBookTitle = findViewById(R.id.edtBookTitle);
-        edtBookAuthor = findViewById(R.id.edtBookAuthor);
-        edtBookISBN = findViewById(R.id.edtBookISBN);
-        btnSaveBook = findViewById(R.id.btnSaveBook);
-        btnBack = findViewById(R.id.btnBack);
+        // Inicializar as views
+        etBookIsbn = findViewById(R.id.etBookIsbn);
+        etBookStock = findViewById(R.id.etBookStock);
+        Button btnAddBook = findViewById(R.id.btnAddBook);
 
         libraryId = getIntent().getStringExtra("libraryId");
 
-        btnSaveBook.setOnClickListener(new View.OnClickListener() {
+        btnAddBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String title = edtBookTitle.getText().toString();
-                String authorName = edtBookAuthor.getText().toString();
-                String isbn = edtBookISBN.getText().toString();
+                String isbn = etBookIsbn.getText().toString().trim();
+                String stockString = etBookStock.getText().toString().trim();
 
-                if (title.isEmpty() || authorName.isEmpty() || isbn.isEmpty()) {
-                    Toast.makeText(AddBookActivity.this, "Por favor, preencha todos os campos", Toast.LENGTH_LONG).show();
+                if (isbn.isEmpty() || stockString.isEmpty()) {
+                    Toast.makeText(AddBookActivity.this, "Please fill in all fields.", Toast.LENGTH_SHORT).show();
                 } else {
-                    List<Author> authors = new ArrayList<>();
-                    authors.add(new Author(null, authorName, null, null, null, null));
-
-                    CoverUrls coverUrls = new CoverUrls(); // Pode deixar vazio para agora
-                    Book newBook = new Book(title, "", isbn, "", 0, coverUrls, authors);
-
-                    addBook(newBook);
+                    int stock = Integer.parseInt(stockString);
+                    addBook(isbn, stock);
                 }
-            }
-        });
-
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
             }
         });
     }
 
-    private void addBook(Book book) {
+    private void addBook(String isbn, int stock) {
         LibraryBookService libraryBookService = ApiClient.getClient().create(LibraryBookService.class);
-        Call<Void> call = libraryBookService.createBook(libraryId, book.getIsbn(), book);
+        CreateLibraryBookRequest request = new CreateLibraryBookRequest(stock);
+        Call<Void> call = libraryBookService.createBook(libraryId, isbn, request);
 
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
-                    Toast.makeText(AddBookActivity.this, "Livro adicionado com sucesso!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(AddBookActivity.this, "Book added successfully!", Toast.LENGTH_LONG).show();
+                    setResult(RESULT_OK);
                     finish();
                 } else {
-                    Toast.makeText(AddBookActivity.this, "Erro ao adicionar livro. Verifique os dados.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(AddBookActivity.this, "Error adding book. Code: " + response.code(), Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                Toast.makeText(AddBookActivity.this, "Erro ao adicionar livro: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(AddBookActivity.this, "Error adding book: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }

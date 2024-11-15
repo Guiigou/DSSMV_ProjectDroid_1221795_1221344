@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.libraryapplication.R;
 import com.example.libraryapplication.activities.BooksActivity;
 import com.example.libraryapplication.activities.EditLibraryActivity;
-import com.example.libraryapplication.activities.RemoveLibraryActivity;
 import com.example.libraryapplication.models.Library;
 import com.example.libraryapplication.services.ApiClient;
 import com.example.libraryapplication.services.LibraryService;
@@ -130,7 +129,7 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.LibraryV
         });
     }
 
-    // Método para atualizar a lista de bibliotecas no Adapter
+    // Metodo para atualizar a lista de bibliotecas no Adapter
     public void updateLibraries(List<Library> newLibrariesList) {
         this.librariesList = newLibrariesList;
         notifyDataSetChanged();

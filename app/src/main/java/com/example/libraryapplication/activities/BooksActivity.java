@@ -1,14 +1,17 @@
 package com.example.libraryapplication.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,6 +20,7 @@ import com.example.libraryapplication.adapters.BookAdapter;
 import com.example.libraryapplication.models.LibraryBook;
 import com.example.libraryapplication.services.ApiClient;
 import com.example.libraryapplication.services.LibraryBookService;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -46,6 +50,7 @@ public class BooksActivity extends AppCompatActivity implements SensorEventListe
         recyclerViewBooks = findViewById(R.id.recyclerViewBooks);
         recyclerViewBooks.setLayoutManager(new LinearLayoutManager(this));
         TextView tvLibraryName = findViewById(R.id.tvLibraryName);
+        FloatingActionButton fabAddBook = findViewById(R.id.fabAddBook);
 
         // Receber os dados do Intent
         libraryId = getIntent().getStringExtra("libraryId");
@@ -70,6 +75,16 @@ public class BooksActivity extends AppCompatActivity implements SensorEventListe
         if (sensorManager != null) {
             accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         }
+
+        // Configurar o FloatingActionButton para adicionar livro
+        fabAddBook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(BooksActivity.this, AddBookActivity.class);
+                intent.putExtra("libraryId", libraryId);
+                startActivityForResult(intent, 1); // Código para identificar a Activity
+            }
+        });
 
         // Carregar os livros da biblioteca
         loadBooks();
@@ -145,5 +160,13 @@ public class BooksActivity extends AppCompatActivity implements SensorEventListe
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
         // Não é necessário implementar aqui
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            loadBooks(); // Recarrega a lista de livros após adicionar um novo
+        }
     }
 }

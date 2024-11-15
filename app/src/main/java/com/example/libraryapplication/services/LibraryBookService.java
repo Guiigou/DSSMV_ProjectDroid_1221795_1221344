@@ -1,6 +1,7 @@
 package com.example.libraryapplication.services;
 
 import com.example.libraryapplication.models.Book;
+import com.example.libraryapplication.models.CreateLibraryBookRequest;
 import com.example.libraryapplication.models.LibraryBook;
 import java.util.List;
 import retrofit2.Call;
@@ -15,5 +16,9 @@ public interface LibraryBookService {
     Call<LibraryBook> getBook(@Path("libraryId") String libraryId, @Path("isbn") String isbn);
 
     @POST("/v1/library/{libraryId}/book/{isbn}")
-    Call<Void> createBook(@Path("libraryId") String libraryId, @Path("isbn") String isbn, @Body Book book);
+    Call<Void> createBook(
+            @Path("libraryId") String libraryId,
+            @Path("isbn") String isbn,
+            @Body CreateLibraryBookRequest createLibraryBookRequest
+    );
 }

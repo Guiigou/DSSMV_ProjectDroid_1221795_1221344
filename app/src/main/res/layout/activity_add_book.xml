@@ -6,33 +6,24 @@
               android:padding="16dp">
 
     <EditText
-            android:id="@+id/edtBookTitle"
+            android:id="@+id/etBookIsbn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Título do Livro" />
+            android:hint="ISBN of the Book"
+            android:inputType="text" />
 
     <EditText
-            android:id="@+id/edtBookAuthor"
+            android:id="@+id/etBookStock"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Autor do Livro" />
-
-    <EditText
-            android:id="@+id/edtBookISBN"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="ISBN do Livro" />
+            android:hint="Stock"
+            android:inputType="number" />
 
     <Button
-            android:id="@+id/btnSaveBook"
+            android:id="@+id/btnAddBook"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Salvar Livro" />
-
-    <Button
-            android:id="@+id/btnBack"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Voltar" />
-
+            android:text="Add Book"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp" />
 </LinearLayout>
