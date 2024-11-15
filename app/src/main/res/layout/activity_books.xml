@@ -1,41 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="16dp">
+                android:layout_height="match_parent">
 
-    <!-- Título em negrito -->
-    <TextView
-            android:id="@+id/tvBookListTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="List Of Books"
-            android:textStyle="bold"
-            android:textSize="24sp"
-            android:gravity="center"
-            android:layout_centerHorizontal="true"
-            android:padding="8dp"/>
-
-    <!-- Nome da Biblioteca -->
-    <TextView
-            android:id="@+id/tvLibraryName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Library Name"
-            android:textSize="18sp"
-            android:layout_below="@id/tvBookListTitle"
-            android:layout_centerHorizontal="true"
-            android:paddingBottom="16dp"/>
-
-    <!-- RecyclerView para a lista de livros -->
-    <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewBooks"
+    <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/tvLibraryName"
-            android:layout_above="@id/fabAddBook"/>
+            android:orientation="vertical"
+            android:padding="16dp">
 
-    <!-- FloatingActionButton para adicionar livro -->
+        <!-- Título em negrito com contorno -->
+        <TextView
+                android:id="@+id/tvBookListTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="List Of Books"
+                android:textStyle="bold"
+                android:textSize="24sp"
+                android:padding="8dp"
+                android:gravity="center_horizontal"
+                android:background="@drawable/outline_background"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="8dp" />
+
+        <!-- Nome da Biblioteca com contorno -->
+        <TextView
+                android:id="@+id/tvLibraryName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nome da Biblioteca"
+                android:textSize="18sp"
+                android:padding="8dp"
+                android:gravity="center_horizontal"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/outline_background"
+                android:layout_marginBottom="16dp" />
+
+        <!-- RecyclerView para a lista de livros -->
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewBooks"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+    </LinearLayout>
+
+    <!-- Floating Action Button com cor castanha -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fabAddBook"
             android:layout_width="wrap_content"
@@ -43,6 +53,7 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
             android:layout_margin="16dp"
-            android:contentDescription="Add Book"
-            android:src="@android:drawable/ic_input_add"/>
+            app:srcCompat="@android:drawable/ic_input_add"
+            app:backgroundTint="@color/brown" />
+
 </RelativeLayout>
