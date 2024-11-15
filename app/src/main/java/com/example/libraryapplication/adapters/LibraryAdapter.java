@@ -20,6 +20,10 @@ import com.example.libraryapplication.services.LibraryService;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import android.os.Vibrator;
+import android.os.VibrationEffect;
+import android.content.Context;
+
 
 import java.util.List;
 
@@ -117,6 +121,17 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.LibraryV
                     librariesList.remove(position);
                     notifyItemRemoved(position);
                     Toast.makeText(context, "Biblioteca removida com sucesso.", Toast.LENGTH_LONG).show();
+
+                    // Código para vibração após a remoção com sucesso
+                    Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+                    if (vibrator != null && vibrator.hasVibrator()) {
+                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                            vibrator.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE));
+                        } else {
+                            vibrator.vibrate(500); // Para versões anteriores ao Android O
+                        }
+                    }
+
                 } else {
                     Toast.makeText(context, "Erro ao remover biblioteca. Código: " + response.code(), Toast.LENGTH_LONG).show();
                 }
@@ -128,6 +143,7 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.LibraryV
             }
         });
     }
+
 
     // Metodo para atualizar a lista de bibliotecas no Adapter
     public void updateLibraries(List<Library> newLibrariesList) {

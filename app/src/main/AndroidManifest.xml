@@ -3,6 +3,8 @@
 
     <!-- Permissão para acesso à Internet -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
 
     <application
             android:allowBackup="true"
@@ -38,11 +40,6 @@
 
         <activity
                 android:name=".activities.EditLibraryActivity"
-                android:exported="true" />
-
-        <!-- RemoveLibraryActivity - Página para remover uma biblioteca -->
-        <activity
-                android:name=".activities.RemoveLibraryActivity"
                 android:exported="true" />
 
         <!-- BooksActivity - Página para visualizar livros em uma biblioteca -->
