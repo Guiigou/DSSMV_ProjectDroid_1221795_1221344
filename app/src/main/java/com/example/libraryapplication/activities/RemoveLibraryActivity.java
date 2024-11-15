@@ -26,7 +26,7 @@ public class RemoveLibraryActivity extends AppCompatActivity {
         }
     }
 
-    // Método para remover a biblioteca
+    // Metodo para remover a biblioteca
     private void removeLibrary(String libraryId) {
         LibraryService libraryService = ApiClient.getClient().create(LibraryService.class);
         Call<Void> call = libraryService.deleteLibrary(libraryId);

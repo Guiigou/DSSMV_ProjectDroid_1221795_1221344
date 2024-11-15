@@ -43,7 +43,7 @@ public class BookDetailActivity extends AppCompatActivity {
         if (title != null) tvBookTitle.setText(title);
         if (authors != null) tvBookAuthor.setText(authors);
         if (description != null) tvBookDescription.setText(description);
-        tvBookStock.setText("Estoque: " + stock);
+        tvBookStock.setText("Stock: " + stock);
 
         if (coverUrl != null && !coverUrl.isEmpty()) {
             Glide.with(this)

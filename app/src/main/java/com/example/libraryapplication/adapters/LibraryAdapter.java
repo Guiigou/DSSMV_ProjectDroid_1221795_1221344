@@ -62,6 +62,7 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.LibraryV
                 if (library.getId() != null) {
                     Intent intent = new Intent(context, BooksActivity.class);
                     intent.putExtra("libraryId", library.getId());  // Passa o ID da biblioteca
+                    intent.putExtra("libraryName", library.getName());  // Passa o nome da biblioteca
                     context.startActivity(intent);
                 } else {
                     Toast.makeText(context, "Erro: ID da biblioteca é nulo", Toast.LENGTH_LONG).show();

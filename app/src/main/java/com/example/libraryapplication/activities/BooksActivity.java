@@ -2,6 +2,7 @@ package com.example.libraryapplication.activities;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -20,17 +21,25 @@ public class BooksActivity extends AppCompatActivity {
     private RecyclerView recyclerViewBooks;
     private BookAdapter bookAdapter;
     private String libraryId;
+    private String libraryName; // Variável para armazenar o nome da biblioteca
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_books);
 
+        // Referências das views
         recyclerViewBooks = findViewById(R.id.recyclerViewBooks);
         recyclerViewBooks.setLayoutManager(new LinearLayoutManager(this));
 
+        TextView tvLibraryName = findViewById(R.id.tvLibraryName);
+
+        // Receber os dados do Intent
         libraryId = getIntent().getStringExtra("libraryId");
+        libraryName = getIntent().getStringExtra("libraryName"); // Receber o nome da biblioteca
+
         Log.d("BooksActivity", "Library ID recebido: " + libraryId);
+        Log.d("BooksActivity", "Library Name recebido: " + libraryName);
 
         if (libraryId == null) {
             Toast.makeText(this, "Erro: ID da biblioteca não foi passado.", Toast.LENGTH_LONG).show();
@@ -38,6 +47,12 @@ public class BooksActivity extends AppCompatActivity {
             return;
         }
 
+        // Definir o nome da biblioteca na TextView
+        if (libraryName != null) {
+            tvLibraryName.setText(libraryName);
+        }
+
+        // Carregar os livros da biblioteca
         loadBooks();
     }
 
@@ -67,5 +82,12 @@ public class BooksActivity extends AppCompatActivity {
                 Toast.makeText(BooksActivity.this, "Erro ao carregar livros: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Recarregar a lista de livros sempre que a activity for retomada
+        loadBooks();
     }
 }

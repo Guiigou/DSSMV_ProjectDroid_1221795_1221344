@@ -3,8 +3,43 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical"
-              android:padding="16dp">
+              android:padding="16dp"
+              android:gravity="center_horizontal">
 
+    <!-- Título em negrito com contorno -->
+    <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+        <TextView
+                android:id="@+id/tvBookListTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="List Of Books"
+                android:textStyle="bold"
+                android:textSize="24sp"
+                android:paddingBottom="4dp"/>
+
+        <TextView
+                android:id="@+id/tvLibraryName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nome da Biblioteca"
+                android:textSize="18sp"
+                android:paddingBottom="8dp"/>
+    </LinearLayout>
+
+    <!-- Linha divisória -->
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"/>
+
+    <!-- RecyclerView para a lista de livros -->
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewBooks"
             android:layout_width="match_parent"
