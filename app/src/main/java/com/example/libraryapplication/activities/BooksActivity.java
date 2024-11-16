@@ -61,6 +61,7 @@ public class BooksActivity extends AppCompatActivity implements SensorEventListe
         recyclerViewBooks.setLayoutManager(new LinearLayoutManager(this));
         TextView tvLibraryName = findViewById(R.id.tvLibraryName);
         FloatingActionButton fabVoiceSearch = findViewById(R.id.fabVoiceSearch);
+        FloatingActionButton fabAddBook = findViewById(R.id.fabAddBook);  // Botão para adicionar livro
 
         // Receber os dados do Intent
         libraryId = getIntent().getStringExtra("libraryId");
@@ -91,6 +92,16 @@ public class BooksActivity extends AppCompatActivity implements SensorEventListe
             @Override
             public void onClick(View v) {
                 startVoiceRecognition();
+            }
+        });
+
+        // Configurar o botão para adicionar livro
+        fabAddBook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(BooksActivity.this, AddBookActivity.class);
+                intent.putExtra("libraryId", libraryId);
+                startActivity(intent);
             }
         });
 
@@ -144,7 +155,6 @@ public class BooksActivity extends AppCompatActivity implements SensorEventListe
         }
         Toast.makeText(this, "Book not found: " + bookTitle, Toast.LENGTH_SHORT).show();
     }
-
 
     @Override
     protected void onResume() {
