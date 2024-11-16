@@ -50,5 +50,30 @@
                 android:textSize="16sp"
                 android:paddingTop="8dp" />
 
+        <Button
+                android:id="@+id/btnCheckOut"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Check Out"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+        />
+
+        <Button
+                android:id="@+id/btnCheckIn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Check In"
+                android:layout_marginTop="16dp"
+        />
+
+        <EditText
+                android:id="@+id/etUserId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter User ID" />
+
+
+
     </LinearLayout>
 </ScrollView>

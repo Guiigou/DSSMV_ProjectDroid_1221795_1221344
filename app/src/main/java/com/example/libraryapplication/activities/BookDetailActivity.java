@@ -1,13 +1,25 @@
 package com.example.libraryapplication.activities;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
 import com.example.libraryapplication.R;
+import com.example.libraryapplication.models.LibraryBook;
+import com.example.libraryapplication.models.UserRequest;
+import com.example.libraryapplication.services.ApiClient;
+import com.example.libraryapplication.services.LibraryBookCheckout;
+import com.example.libraryapplication.services.LibraryBookService;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class BookDetailActivity extends AppCompatActivity {
     private ImageView ivBookCover;
@@ -15,6 +27,13 @@ public class BookDetailActivity extends AppCompatActivity {
     private TextView tvBookAuthor;
     private TextView tvBookDescription;
     private TextView tvBookStock;
+    private EditText etUserId;
+    private Button btnCheckOut;
+    private Button btnCheckIn;
+
+    private String libraryId;
+    private String isbn;
+    private LibraryBook currentLibraryBook;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,32 +45,135 @@ public class BookDetailActivity extends AppCompatActivity {
         tvBookAuthor = findViewById(R.id.tvBookAuthor);
         tvBookDescription = findViewById(R.id.tvBookDescription);
         tvBookStock = findViewById(R.id.tvBookStock);
+        etUserId = findViewById(R.id.etUserId);
+        btnCheckOut = findViewById(R.id.btnCheckOut);
+        btnCheckIn = findViewById(R.id.btnCheckIn);
 
+        // Receber dados da Intent
+        libraryId = getIntent().getStringExtra("libraryId");
+        isbn = getIntent().getStringExtra("isbn");
         String title = getIntent().getStringExtra("title");
         String authors = getIntent().getStringExtra("authors");
         String description = getIntent().getStringExtra("description");
-        int stock = getIntent().getIntExtra("stock", 0);
         String coverUrl = getIntent().getStringExtra("coverUrl");
 
-        // Verificar se os dados foram recebidos corretamente
-        Log.d("BookDetailActivity", "Title: " + title);
-        Log.d("BookDetailActivity", "Authors: " + authors);
-        Log.d("BookDetailActivity", "Description: " + description);
-        Log.d("BookDetailActivity", "Stock: " + stock);
-        Log.d("BookDetailActivity", "Cover URL recebida: " + coverUrl);
-
+        // Exibir dados recebidos
         if (title != null) tvBookTitle.setText(title);
         if (authors != null) tvBookAuthor.setText(authors);
         if (description != null) tvBookDescription.setText(description);
-        tvBookStock.setText("Stock: " + stock);
 
         if (coverUrl != null && !coverUrl.isEmpty()) {
-            Glide.with(this)
-                    .load(coverUrl)
-                    .into(ivBookCover);
+            Glide.with(this).load(coverUrl).into(ivBookCover);
         } else {
-            Log.d("BookDetailActivity", "URL da capa não disponível");
             Toast.makeText(this, "Capa do livro não disponível", Toast.LENGTH_SHORT).show();
+        }
+
+        // Buscar informações do estoque atual
+        carregarLivro();
+
+        // Configurar ação de check-out
+        btnCheckOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String userId = etUserId.getText().toString().trim();
+                if (userId.isEmpty()) {
+                    Toast.makeText(BookDetailActivity.this, "Por favor, insira o ID do usuário.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                realizarCheckOut(userId);
+            }
+        });
+
+        // Configurar ação de check-in
+        btnCheckIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String userId = etUserId.getText().toString().trim();
+                if (userId.isEmpty()) {
+                    Toast.makeText(BookDetailActivity.this, "Por favor, insira o ID do usuário.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                realizarCheckIn(userId);
+            }
+        });
+    }
+
+    private void carregarLivro() {
+        LibraryBookService service = ApiClient.getClient().create(LibraryBookService.class);
+        Call<LibraryBook> call = service.getBook(libraryId, isbn);
+
+        call.enqueue(new Callback<LibraryBook>() {
+            @Override
+            public void onResponse(Call<LibraryBook> call, Response<LibraryBook> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    currentLibraryBook = response.body();
+                    atualizarEstoque(currentLibraryBook.getStock());
+                } else {
+                    Toast.makeText(BookDetailActivity.this, "Erro ao carregar informações do livro. Código: " + response.code(), Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LibraryBook> call, Throwable t) {
+                Toast.makeText(BookDetailActivity.this, "Erro ao carregar informações do livro: " + t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void realizarCheckOut(String userId) {
+        if (currentLibraryBook == null || currentLibraryBook.getAvailable() <= 0) {
+            Toast.makeText(this, "O livro não está disponível para check-out.", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        LibraryBookCheckout service = ApiClient.getClient().create(LibraryBookCheckout.class);
+        Call<Void> call = service.checkOutBook(libraryId, isbn, new UserRequest(userId));
+
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    currentLibraryBook.setAvailable(currentLibraryBook.getAvailable() - 1);
+                    atualizarEstoque(currentLibraryBook.getStock());
+                    Toast.makeText(BookDetailActivity.this, "Livro retirado com sucesso!", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(BookDetailActivity.this, "Erro ao realizar o check-out. Código: " + response.code(), Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(BookDetailActivity.this, "Erro ao realizar o check-out: " + t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void realizarCheckIn(String userId) {
+        LibraryBookCheckout service = ApiClient.getClient().create(LibraryBookCheckout.class);
+        Call<Void> call = service.checkInBook(libraryId, isbn, new UserRequest(userId));
+
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    currentLibraryBook.setAvailable(currentLibraryBook.getAvailable() + 1);
+                    atualizarEstoque(currentLibraryBook.getStock());
+                    Toast.makeText(BookDetailActivity.this, "Livro devolvido com sucesso!", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(BookDetailActivity.this, "Erro ao realizar o check-in. Código: " + response.code(), Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(BookDetailActivity.this, "Erro ao realizar o check-in: " + t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void atualizarEstoque(int novoStock) {
+        if (currentLibraryBook != null) {
+            tvBookStock.setText("Stock: " + currentLibraryBook.getAvailable() + " de " + novoStock);
         }
     }
 }

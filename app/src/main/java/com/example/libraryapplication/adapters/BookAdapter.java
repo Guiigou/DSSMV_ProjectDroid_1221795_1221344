@@ -63,6 +63,8 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHolder
         holder.itemView.setOnClickListener(v -> {
             Log.d("BookAdapter", "Clicando no livro: " + libraryBook.getBookTitle());
             Intent intent = new Intent(context, BookDetailActivity.class);
+            intent.putExtra("libraryId", libraryBook.getLibrary().getId()); // Passando o ID da biblioteca
+            intent.putExtra("isbn", libraryBook.getIsbn());
             intent.putExtra("title", libraryBook.getBookTitle());
             intent.putExtra("authors", libraryBook.getBookAuthors());
             intent.putExtra("description", libraryBook.getBookDescription());
