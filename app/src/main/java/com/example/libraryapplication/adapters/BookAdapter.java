@@ -69,10 +69,13 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHolder
             intent.putExtra("stock", libraryBook.getStock());
 
             // Enviar a URL da capa ao BookDetailActivity
-            if (libraryBook.getBook() != null && libraryBook.getBook().getCover() != null) {
-                String coverUrl = "http://193.136.62.24" + libraryBook.getBook().getCover().getMediumUrl().replace("/api", "");
-                Log.d("BookAdapter", "Cover URL enviado: " + coverUrl);
+            try {
+                String isbn = libraryBook.getIsbn().replaceAll("-", "");
+                String encodedIsbn = URLEncoder.encode(isbn, "UTF-8");
+                String coverUrl = "http://193.136.62.24/v1/assets/cover/" + encodedIsbn + "-M.jpg";
                 intent.putExtra("coverUrl", coverUrl);
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
             }
 
             context.startActivity(intent);

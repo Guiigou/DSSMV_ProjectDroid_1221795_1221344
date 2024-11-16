@@ -130,6 +130,10 @@ public class BooksActivity extends AppCompatActivity implements SensorEventListe
     }
 
     private void searchBookByVoice(String bookTitle) {
+        if (booksList == null) {
+            Toast.makeText(this, "Books list not loaded yet.", Toast.LENGTH_SHORT).show();
+            return;
+        }
         for (LibraryBook book : booksList) {
             if (book.getBookTitle().equalsIgnoreCase(bookTitle)) {
                 // Abrir a tela de detalhes do livro se encontrado
