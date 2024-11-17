@@ -1,4 +1,5 @@
 package com.example.libraryapplication.services;
+
 import com.example.libraryapplication.models.CheckedOutBook;
 import com.example.libraryapplication.models.UserRequest;
 import retrofit2.Call;
@@ -22,8 +23,8 @@ public interface LibraryBookCheckout {
             @Body UserRequest userRequest
     );
 
-    @GET("/v1/user/check-out")
-    Call<List<CheckedOutBook>> getCheckedOutBooks(@Path("userId") String userId);
-
-
+    @GET("/v1/user/checked-out")
+    Call<List<CheckedOutBook>> getCheckedOutBooks(
+            @Query("userId") String userId
+    );
 }

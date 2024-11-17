@@ -67,12 +67,6 @@
                 android:layout_marginTop="16dp"
         />
 
-        <EditText
-                android:id="@+id/etUserId"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Enter User ID" />
-
 
 
     </LinearLayout>

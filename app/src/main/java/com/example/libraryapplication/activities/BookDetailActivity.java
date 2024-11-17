@@ -3,7 +3,6 @@ package com.example.libraryapplication.activities;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -27,10 +26,6 @@ public class BookDetailActivity extends AppCompatActivity {
     private TextView tvBookAuthor;
     private TextView tvBookDescription;
     private TextView tvBookStock;
-    private EditText etUserId;
-    private Button btnCheckOut;
-    private Button btnCheckIn;
-
     private String libraryId;
     private String isbn;
     private LibraryBook currentLibraryBook;
@@ -45,9 +40,6 @@ public class BookDetailActivity extends AppCompatActivity {
         tvBookAuthor = findViewById(R.id.tvBookAuthor);
         tvBookDescription = findViewById(R.id.tvBookDescription);
         tvBookStock = findViewById(R.id.tvBookStock);
-        etUserId = findViewById(R.id.etUserId);
-        btnCheckOut = findViewById(R.id.btnCheckOut);
-        btnCheckIn = findViewById(R.id.btnCheckIn);
 
         // Receber dados da Intent
         libraryId = getIntent().getStringExtra("libraryId");
@@ -72,28 +64,18 @@ public class BookDetailActivity extends AppCompatActivity {
         carregarLivro();
 
         // Configurar ação de check-out
-        btnCheckOut.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.btnCheckOut).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String userId = etUserId.getText().toString().trim();
-                if (userId.isEmpty()) {
-                    Toast.makeText(BookDetailActivity.this, "Por favor, insira o ID do usuário.", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                realizarCheckOut(userId);
+                exibirDialogoUsuario("check-out");
             }
         });
 
         // Configurar ação de check-in
-        btnCheckIn.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.btnCheckIn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String userId = etUserId.getText().toString().trim();
-                if (userId.isEmpty()) {
-                    Toast.makeText(BookDetailActivity.this, "Por favor, insira o ID do usuário.", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                realizarCheckIn(userId);
+                exibirDialogoUsuario("check-in");
             }
         });
     }
@@ -120,6 +102,39 @@ public class BookDetailActivity extends AppCompatActivity {
         });
     }
 
+    private void exibirDialogoUsuario(String acao) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Inserir ID do Usuário");
+
+        final EditText input = new EditText(this);
+        builder.setView(input);
+
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String userId = input.getText().toString().trim();
+                if (userId.isEmpty()) {
+                    Toast.makeText(BookDetailActivity.this, "Por favor, insira o ID do usuário.", Toast.LENGTH_SHORT).show();
+                } else {
+                    if (acao.equals("check-out")) {
+                        realizarCheckOut(userId);
+                    } else if (acao.equals("check-in")) {
+                        realizarCheckIn(userId);
+                    }
+                }
+            }
+        });
+
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
+    }
+
     private void realizarCheckOut(String userId) {
         if (currentLibraryBook == null || currentLibraryBook.getAvailable() <= 0) {
             Toast.makeText(this, "O livro não está disponível para check-out.", Toast.LENGTH_LONG).show();
@@ -127,7 +142,8 @@ public class BookDetailActivity extends AppCompatActivity {
         }
 
         LibraryBookCheckout service = ApiClient.getClient().create(LibraryBookCheckout.class);
-        Call<Void> call = service.checkOutBook(libraryId, isbn, new UserRequest(userId));
+        UserRequest userRequest = new UserRequest(userId);
+        Call<Void> call = service.checkOutBook(libraryId, isbn, userRequest);
 
         call.enqueue(new Callback<Void>() {
             @Override
@@ -150,7 +166,8 @@ public class BookDetailActivity extends AppCompatActivity {
 
     private void realizarCheckIn(String userId) {
         LibraryBookCheckout service = ApiClient.getClient().create(LibraryBookCheckout.class);
-        Call<Void> call = service.checkInBook(libraryId, isbn, new UserRequest(userId));
+        UserRequest userRequest = new UserRequest(userId);
+        Call<Void> call = service.checkInBook(libraryId, isbn, userRequest);
 
         call.enqueue(new Callback<Void>() {
             @Override
